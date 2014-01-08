@@ -1,0 +1,8 @@
+.DS_Store
+._*
+Thumbs.db
+*.class
+*.dex
+/bin/
+/gen/
+/Debug/
