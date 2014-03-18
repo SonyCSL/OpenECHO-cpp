@@ -28,5 +28,8 @@
 
 #include "EchoDevice.h"
 
+#include "EchoProtocol.h"
+#include "EchoUDPProtocol.h"
+
 
 #endif /* OPENECHO_H_ */

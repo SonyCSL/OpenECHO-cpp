@@ -17,13 +17,13 @@ EchoProtocol::~EchoProtocol() {
 	// TODO Auto-generated destructor stub
 }
 
-EchoProtocol::Task::Task(EchoFrame* frame) : mFrame(new EchoFrame(frame)){
+EchoTask::EchoTask(EchoFrame* frame) : mFrame(new EchoFrame(*frame)){
 }
 
-EchoProtocol::Task::~Task() {
+EchoTask::~EchoTask() {
 }
 
-void EchoProtocol::Task::perform() {
+void EchoTask::perform() {
 	checkObjectInFrame();
 	if(isReportFrame()) {
 		onReceiveReport();
@@ -45,7 +45,7 @@ void EchoProtocol::Task::perform() {
 	}
 }
 
-bool EchoProtocol::Task::isRequestFrame() {
+bool EchoTask::isRequestFrame() {
 	switch(mFrame->getESV()) {
 	case EchoFrame::ESV_SETI: case EchoFrame::ESV_SETC:
 	case EchoFrame::ESV_GET:
@@ -58,7 +58,7 @@ bool EchoProtocol::Task::isRequestFrame() {
 	}
 }
 
-bool EchoProtocol::Task::isReportFrame() {
+bool EchoTask::isReportFrame() {
 	switch(mFrame->getESV()) {
 	case EchoFrame::ESV_SETI_SNA:
 	case EchoFrame::ESV_SET_RES: case EchoFrame::ESV_SETC_SNA:
@@ -72,7 +72,7 @@ bool EchoProtocol::Task::isReportFrame() {
 	}
 }
 
-std::vector<EchoFrame> EchoProtocol::Task::onReceiveRequest() {
+std::vector<EchoFrame> EchoTask::onReceiveRequest() {
 
 	std::vector<EchoFrame> responses;
 	std::shared_ptr<EchoNode> selfNode = Echo::getSelfNode();
@@ -86,7 +86,7 @@ std::vector<EchoFrame> EchoProtocol::Task::onReceiveRequest() {
 			responses.push_back(res);
 		} else {
 			//DeviceObject[] deojList = selfNode.getDevices(frame.getDstEchoClassCode());
-			std::vector<std::shared_ptr<DeviceObject>> deojList = selfNode.get()->getDevices(mFrame->getDstEchoClassCode());
+			std::vector<std::shared_ptr<DeviceObject> > deojList = selfNode.get()->getDevices(mFrame->getDstEchoClassCode());
 			for(std::shared_ptr<DeviceObject> deoj : deojList) {
 				EchoFrame res = onReceiveRequest(deoj);
 				responses.push_back(res);
@@ -101,7 +101,7 @@ std::vector<EchoFrame> EchoProtocol::Task::onReceiveRequest() {
 	return responses;
 }
 
-EchoFrame EchoProtocol::Task::onReceiveRequest(
+EchoFrame EchoTask::onReceiveRequest(
 		std::shared_ptr<EchoObject> deoj) {
 	EchoFrame request = *mFrame; // copy
 	request.setDstEchoInstanceCode(deoj.get()->getInstanceCode());
@@ -110,7 +110,7 @@ EchoFrame EchoProtocol::Task::onReceiveRequest(
 	return response;
 }
 
-void EchoProtocol::Task::onReceiveReport() {
+void EchoTask::onReceiveReport() {
 	std::shared_ptr<EchoNode> node  = Echo::getNode(mFrame->getSrcEchoAddress());
 	std::shared_ptr<EchoObject> seoj = node.get()->getInstance(
 			mFrame->getSrcEchoClassCode(), mFrame->getSrcEchoInstanceCode());
@@ -125,7 +125,13 @@ void EchoProtocol::Task::onReceiveReport() {
 	}
 }
 
-void EchoProtocol::Task::checkObjectInFrame() {
+void EchoTask::respond(const EchoFrame& response) {
+}
+
+void EchoTask::informAll(const EchoFrame& response) {
+}
+
+void EchoTask::checkObjectInFrame() {
 	if(EchoSocket::SELF_ADDRESS == mFrame->getSrcEchoAddress()) {
 		// self node
 		return;
@@ -175,7 +181,7 @@ void EchoProtocol::Task::checkObjectInFrame() {
 			|| mFrame->getESV() == EchoFrame::ESV_INF_SNA
 			|| mFrame->getESV() == EchoFrame::ESV_INFC)) {
 		// seoj is NodeProfile
-		std::vector<std::shared_ptr<EchoObject>> foundDevices;
+		std::vector<std::shared_ptr<EchoObject> > foundDevices;
 		std::vector<char> flagNewDevices;
 		char TRUE = 1;
 		char FALSE = 0;

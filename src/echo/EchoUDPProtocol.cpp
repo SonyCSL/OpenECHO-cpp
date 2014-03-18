@@ -6,6 +6,7 @@
  */
 
 #include "EchoUDPProtocol.h"
+#include "OpenECHO.h"
 
 const int EchoUDPProtocol::UDP_MAX_PACKET_SIZE = 65507;
 const int EchoUDPProtocol::PORT = 3610;
@@ -145,17 +146,17 @@ void EchoUDPProtocol::receive() {
 
 }
 
-EchoUDPProtocol::UDPProtocolTask::UDPProtocolTask(EchoFrame frame,
-		EchoProtocol& protocol) : mProtocol(protocol) {
+UDPProtocolTask::UDPProtocolTask(EchoFrame* frame,
+		EchoUDPProtocol& protocol) : EchoTask(frame), mProtocol(protocol) {
 }
 
-EchoUDPProtocol::UDPProtocolTask::~UDPProtocolTask() {
+UDPProtocolTask::~UDPProtocolTask() {
 }
 
-void EchoUDPProtocol::UDPProtocolTask::respond(const EchoFrame& response) {
+void UDPProtocolTask::respond(const EchoFrame& response) {
 	mProtocol.sendUDP(response);
 }
 
-void EchoUDPProtocol::UDPProtocolTask::informAll(const EchoFrame& response) {
+void UDPProtocolTask::informAll(const EchoFrame& response) {
 	mProtocol.sendUDP(response);
 }

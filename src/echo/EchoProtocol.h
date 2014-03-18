@@ -8,7 +8,12 @@
 #ifndef ECHOPROTOCOL_H_
 #define ECHOPROTOCOL_H_
 
+#include <memory>
+#include <vector>
+
+
 class EchoFrame;
+class EchoObject;
 
 class EchoProtocol {
 public:
@@ -16,28 +21,28 @@ public:
 	virtual ~EchoProtocol();
 
 	virtual void receive() = 0;
+};
 
-	class Task {
-	protected:
-		EchoFrame* mFrame;
-	public:
-		Task(EchoFrame* frame);
-		virtual ~Task();
+class EchoTask {
+protected:
+	EchoFrame* mFrame;
+public:
+	EchoTask(EchoFrame* frame);
+	virtual ~EchoTask();
 
-		void perform();
-	protected:
-		void respond(const EchoFrame& response) = 0;
-		void informAll(const EchoFrame& response) = 0;
+	void perform();
+protected:
+	void respond(const EchoFrame& response);
+	void informAll(const EchoFrame& response);
 
-		bool isRequestFrame();
-		bool isReportFrame();
+	bool isRequestFrame();
+	bool isReportFrame();
 
-		std::vector<EchoFrame> onReceiveRequest();
-		EchoFrame onReceiveRequest(std::shared_ptr<EchoObject> deoj);
-		void onReceiveReport();
-		void checkObjectInFrame();
+	std::vector<EchoFrame> onReceiveRequest();
+	EchoFrame onReceiveRequest(std::shared_ptr<EchoObject> deoj);
+	void onReceiveReport();
+	void checkObjectInFrame();
 
-	};
 };
 
 #endif /* ECHOPROTOCOL_H_ */

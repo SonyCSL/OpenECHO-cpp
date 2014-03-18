@@ -415,7 +415,7 @@ void EchoObject::Sender::send(EchoFrame& frame) {
 void EchoObject::Sender::sendTCP(EchoFrame& frame) {
 	unsigned short tid = EchoSocket::nextTID();
 	frame.setTID(tid);
-	EchoSocket::sendTCPFrame(frame);
+	//EchoSocket::sendTCPFrame(frame);
 }
 
 EchoObject::Setter::Setter(unsigned short dstEchoClassCode, unsigned char dstEchoInstanceCode

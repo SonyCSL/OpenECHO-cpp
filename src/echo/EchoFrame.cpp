@@ -123,7 +123,7 @@ std::vector<unsigned char> EchoFrame::getFrameByteArray() const {
 	int packetSize = 12;
 	for(int i = 0; i < propertyListSize; i++) {
 		packetSize += mPropertyList.at(i).size();
-		if(packetSize > EchoSocket::UDP_MAX_PACKET_SIZE) {
+		if(packetSize > EchoUDPProtocol::UDP_MAX_PACKET_SIZE) {
 			propertyListSize = i - 1;
 			break;
 		}
