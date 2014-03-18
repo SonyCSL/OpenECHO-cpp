@@ -149,7 +149,7 @@ void EchoSocket::onReceiveUDPRequsetFrame(
 		response.setDstEchoAddress(MULTICAST_ADDRESS);
 	}
 	if(response.getESV() == EchoFrame::ESV_SET_NO_RES) {
-		continue;
+		return;
 	}
 	sendUDPFrame(response);
 }

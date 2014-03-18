@@ -42,6 +42,8 @@ private:
 	EchoObject(const EchoObject& src); // non-copyable
 
 public:
+	void onNew();
+	void onFound();
 	unsigned char getClassGroupCode();
 	unsigned char getClassCode();
 	virtual unsigned char getInstanceCode() = 0;

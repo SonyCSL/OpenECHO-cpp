@@ -53,6 +53,7 @@ private:
 
 	std::vector<EchoProperty> mPropertyList;
 public:
+	EchoFrame();
 	EchoFrame(const unsigned short srcEchoClassCode, const unsigned char srcEchoInstanceCode
 			, const unsigned short dstEchoClassCode, const unsigned char dstEchoInstanceCode
 			, const std::string dstEchoAddress, const unsigned char esv); // send
@@ -69,9 +70,9 @@ public:
 	void setDstEchoInstanceCode(const unsigned char echoInstanceCode);
 	unsigned char getDstEchoInstanceCode();
 	void setDstEchoAddress(const std::string dstEchoAddress);
-	std::string getDstEchoAddress();
+	std::string getDstEchoAddress() const;
 	std::vector<EchoProperty> getPropertyList();
-	std::vector<unsigned char> getFrameByteArray();
+	std::vector<unsigned char> getFrameByteArray() const;
 	void addPropertyForResponse(const unsigned char epc);
 	void addPropertyForResponse(const unsigned char epc, const std::vector<unsigned char>& edt);
 	void addPropertyForResponse(const EchoProperty& property);

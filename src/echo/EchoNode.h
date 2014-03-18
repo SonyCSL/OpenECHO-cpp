@@ -36,6 +36,8 @@ private:
 	EchoNode(const EchoNode& src); // non-copyable
 
 public:
+	void onNew();
+	void onFound();
 	bool isProxy();
 	bool isSelfNode();
 	std::shared_ptr<NodeProfile> getNodeProfile();
@@ -47,8 +49,6 @@ public:
 	std::shared_ptr<EchoObject> getInstance(unsigned short echoClassCode, unsigned char echoInstanceCode);
 	std::vector<std::shared_ptr<DeviceObject> > getDevices();
 	std::vector<std::shared_ptr<DeviceObject> > getDevices(unsigned short echoClassCode);
-	void onNewNode();
-	void onFoundNode();
 private:
 	static DeviceObject* newOtherDevice(unsigned short echoClassCode, unsigned char echoInstanceCode);
 };

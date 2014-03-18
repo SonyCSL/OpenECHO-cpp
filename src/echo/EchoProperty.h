@@ -21,7 +21,7 @@ public:
 	virtual ~EchoProperty();
 	EchoProperty(const EchoProperty& property);
 	EchoProperty &operator =(const EchoProperty &property);
-	int size();
+	int size() const;
 };
 
 #endif /* ECHOPROPERTY_H_ */

@@ -22,7 +22,7 @@ EchoProperty::~EchoProperty() {
 	// TODO Auto-generated destructor stub
 }
 
-int EchoProperty::size() {
+int EchoProperty::size() const {
 	return ((int)pdc + 2);
 }
 

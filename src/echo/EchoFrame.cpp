@@ -102,7 +102,7 @@ unsigned char EchoFrame::getDstEchoInstanceCode() {
 	return mDstEchoInstanceCode;
 }
 
-std::string EchoFrame::getDstEchoAddress() {
+std::string EchoFrame::getDstEchoAddress() const {
 	return mDstEchoAddress;
 }
 
@@ -114,7 +114,7 @@ std::vector<EchoProperty> EchoFrame::getPropertyList() {
 	return mPropertyList;
 }
 
-std::vector<unsigned char> EchoFrame::getFrameByteArray() {
+std::vector<unsigned char> EchoFrame::getFrameByteArray() const {
 	std::vector<unsigned char> frame;
 	int propertyListSize = mPropertyList.size();
 	if(propertyListSize > 255) {
@@ -191,6 +191,9 @@ void EchoFrame::addPropertyForResponse(const EchoProperty& property) {
 		}
 		break;
 	}
+}
+
+EchoFrame::EchoFrame() {
 }
 
 void EchoFrame::addProperty(const EchoProperty& property) {

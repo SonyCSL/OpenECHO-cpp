@@ -271,6 +271,12 @@ std::shared_ptr<std::set<unsigned char> > EchoObject::getGetProperties() {
 	return mGetProperties;
 }
 
+void EchoObject::onNew() {
+}
+
+void EchoObject::onFound() {
+}
+
 void EchoObject::onReceiveGetRequest(unsigned char epc, EchoFrame& response) {
 
 	std::shared_ptr<std::vector<unsigned char> > edt;

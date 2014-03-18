@@ -142,6 +142,12 @@ std::vector<std::shared_ptr<DeviceObject> > EchoNode::getDevices(
 	return ret;
 }
 
+void EchoNode::onNew() {
+}
+
+void EchoNode::onFound() {
+}
+
 DeviceObject* EchoNode::newOtherDevice(unsigned short echoClassCode,
 		unsigned char echoInstanceCode) {
 	//return 0;
