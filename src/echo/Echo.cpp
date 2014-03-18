@@ -41,12 +41,21 @@ std::shared_ptr<EchoNode> Echo::start(
 
 	EchoSocket::openSocket();
 	EchoSocket::startReceiverThread();
-	Echo::getEventListener().onNewNode(sSelfNode);
-	Echo::getEventListener().onFoundNode(sSelfNode);
+	//Echo::getEventListener().onNewNode(sSelfNode);
+	//Echo::getEventListener().onFoundNode(sSelfNode);
 	//sSelfNode.get()->onNewNode();
 	//sSelfNode.get()->onFoundNode();
+	sSelfNode.get()->onNew();
+	sSelfNode.get()->onFound();
 
+	sSelfNode.get()->getNodeProfile().get()->onNew();
+	sSelfNode.get()->getNodeProfile().get()->onFound();
 
+	for(int i = 0; i < devicesSize; i++) {
+		devices.at(i).get()->onNew();
+		devices.at(i).get()->onFound();
+
+	}
 
 	profile.get()->inform().reqInformInstanceListNotification().send();
 

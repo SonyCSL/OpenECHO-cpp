@@ -18,7 +18,11 @@ EchoNode::EchoNode(std::shared_ptr<NodeProfile> nodeProfile,
 	for(int i = 0; i < devicesSize; i++) {
 		//devices.at(i).get()->allocateSelfDeviceInstanceCode();
 		//mDevices.push_back(devices.at(i));
-		addDevice(devices.at(i));
+		//addDevice(devices.at(i));
+		if(isSelfNode()) {
+			devices.at(i).get()->allocateSelfDeviceInstanceCode();
+			mDevices.push_back(devices.at(i));
+		}
 	}
 }
 
@@ -58,20 +62,26 @@ std::shared_ptr<DeviceObject> EchoNode::addOtherDevice(unsigned short echoClassC
 
 
 void EchoNode::addDevice(std::shared_ptr<DeviceObject> device) {
+	if(device.get() == nullptr) {
+		return;
+	}
+	if(device.get()->getNode().get() == this) {
+		return;
+	}
 
 	if(isSelfNode()) {
 		device.get()->allocateSelfDeviceInstanceCode();
-
+		device.get()->setNode(Echo::getSelfNode());
+		mDevices.push_back(device);
+		device.get()->onNew();
+		device.get()->onFound();
+	} else {
+		mDevices.push_back(device);
 	}
 	std::cerr << "[addDevice]address:" << mAddress << ",class:"
 			<< std::hex << device.get()->getEchoClassCode() << ",instance:"
 			<< std::hex << (int)(device.get()->getInstanceCode()) << std::endl;
 
-	mDevices.push_back(device);
-
-	if(isSelfNode()) {
-
-	}
 
 }
 void EchoNode::removeDevice(unsigned short echoClassCode,
