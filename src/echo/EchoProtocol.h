@@ -27,13 +27,13 @@ class EchoTask {
 protected:
 	EchoFrame* mFrame;
 public:
-	EchoTask(EchoFrame* frame);
+	EchoTask(EchoFrame frame);
 	virtual ~EchoTask();
 
 	void perform();
 protected:
-	void respond(const EchoFrame& response);
-	void informAll(const EchoFrame& response);
+	virtual void respond(const EchoFrame& response);
+	virtual void informAll(const EchoFrame& response);
 
 	bool isRequestFrame();
 	bool isReportFrame();

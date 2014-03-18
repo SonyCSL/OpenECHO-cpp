@@ -17,18 +17,24 @@ EchoProtocol::~EchoProtocol() {
 	// TODO Auto-generated destructor stub
 }
 
-EchoTask::EchoTask(EchoFrame* frame) : mFrame(new EchoFrame(*frame)){
+EchoTask::EchoTask(EchoFrame frame) : mFrame(new EchoFrame(frame)){
 }
 
 EchoTask::~EchoTask() {
+	delete mFrame;
 }
 
 void EchoTask::perform() {
+	std::cerr << "perform" << std::endl;
 	checkObjectInFrame();
 	if(isReportFrame()) {
+		std::cerr << "report" << std::endl;
+
 		onReceiveReport();
 	}
 	if(isRequestFrame()) {
+		std::cerr << "request" << std::endl;
+
 		std::vector<EchoFrame> responses = onReceiveRequest();
 		for(EchoFrame res : responses) {
 
@@ -120,7 +126,7 @@ void EchoTask::onReceiveReport() {
 	}
 
 	std::shared_ptr<EchoObject::Receiver> receiver = seoj.get()->getReceiver();
-	if(receiver.get() == nullptr) {
+	if(receiver.get() != nullptr) {
 		receiver.get()->onReceive(seoj, *mFrame);
 	}
 }

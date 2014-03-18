@@ -77,7 +77,11 @@ int main() {
 	//while(true){}
 	Echo::start(profile, devices);
 
-	while(true){sleep(1);}
+	while(true){
+		sleep(5);
+		NodeProfile::Getter(NodeProfile::ECHO_CLASS_CODE
+				, NodeProfile::INSTANCE_CODE
+				, EchoSocket::MULTICAST_ADDRESS).reqGetSelfNodeInstanceListS().send();}
 
 
 

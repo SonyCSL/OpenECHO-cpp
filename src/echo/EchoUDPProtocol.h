@@ -9,7 +9,6 @@
 #define ECHOUDPPROTOCOL_H_
 
 #include "EchoProtocol.h"
-#include <iostream>
 
 #include <string>
 #include <memory>
@@ -58,7 +57,7 @@ class UDPProtocolTask : EchoTask {
 protected:
 	EchoUDPProtocol& mProtocol;
 public:
-	UDPProtocolTask(EchoFrame* frame, EchoUDPProtocol& protocol);
+	UDPProtocolTask(EchoFrame frame, EchoUDPProtocol& protocol);
 	virtual ~UDPProtocolTask();
 
 protected:

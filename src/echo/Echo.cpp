@@ -40,6 +40,7 @@ std::shared_ptr<EchoNode> Echo::start(
 
 
 	EchoSocket::openSocket();
+	EchoSocket::startReceiverThread();
 	Echo::getEventListener().onNewNode(sSelfNode);
 	Echo::getEventListener().onFoundNode(sSelfNode);
 	//sSelfNode.get()->onNewNode();

@@ -64,7 +64,7 @@ void EchoUDPProtocol::closeUDP() {
 }
 
 void EchoUDPProtocol::sendUDP(const EchoFrame& frame) {
-
+	std::cerr << "sendUDP:" << std::endl;
 	if(frame.getDstEchoAddress() == EchoSocket::SELF_ADDRESS) {
 		sendToSelf(frame);
 		return;
@@ -106,8 +106,8 @@ void EchoUDPProtocol::sendUDP(const EchoFrame& frame) {
 	}
 	std::cerr << std::endl;
 
-
 	close(sock);
+
 	if(frame.getDstEchoAddress() == EchoSocket::MULTICAST_ADDRESS) {
 		EchoFrame f = frame;
 		f.setDstEchoAddress(EchoSocket::SELF_ADDRESS);
@@ -116,6 +116,9 @@ void EchoUDPProtocol::sendUDP(const EchoFrame& frame) {
 }
 
 void EchoUDPProtocol::sendToSelf(const EchoFrame& frame) {
+
+	std::shared_ptr<EchoTask> task((EchoTask*)(new UDPProtocolTask(frame, *this)));
+	EchoSocket::enqueueTask(task);
 }
 
 void EchoUDPProtocol::receive() {
@@ -144,9 +147,12 @@ void EchoUDPProtocol::receive() {
 	std::string address = caddress;
 	EchoFrame frame(address, data);
 
+	std::shared_ptr<EchoTask> task((EchoTask*)(new UDPProtocolTask(frame, *this)));
+	EchoSocket::enqueueTask(task);
+
 }
 
-UDPProtocolTask::UDPProtocolTask(EchoFrame* frame,
+UDPProtocolTask::UDPProtocolTask(EchoFrame frame,
 		EchoUDPProtocol& protocol) : EchoTask(frame), mProtocol(protocol) {
 }
 
