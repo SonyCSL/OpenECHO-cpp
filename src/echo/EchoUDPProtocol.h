@@ -15,6 +15,7 @@
 #include <queue>
 //#include <boost/shared_ptr.hpp>
 
+#include <cstring> // for memset.
 
 #include <pthread.h>
 
