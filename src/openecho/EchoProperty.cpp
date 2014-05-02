@@ -7,6 +7,9 @@
 
 #include "EchoProperty.h"
 
+
+namespace sonycsl_openecho {
+
 EchoProperty::EchoProperty(const unsigned char _epc)
 	: epc(_epc)
 	, pdc(0) {
@@ -39,3 +42,5 @@ EchoProperty& EchoProperty::operator =(const EchoProperty& property) {
 
 	return (*this);
 }
+
+};

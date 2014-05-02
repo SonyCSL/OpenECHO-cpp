@@ -10,6 +10,8 @@
 
 #include "EchoObject.h"
 
+namespace sonycsl_openecho {
+
 class ProfileObject: public EchoObject {
 public:
 	class Receiver;
@@ -141,6 +143,8 @@ public:
 		virtual ~InformerC();
 		virtual ProfileObject::InformerC& reqInformProperty(unsigned char epc);
 	};
+};
+
 };
 
 #endif /* PROFILEOBJECT_H_ */

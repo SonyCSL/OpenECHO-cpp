@@ -8,6 +8,9 @@
 #include "EchoFrame.h"
 #include "OpenECHO.h"
 
+
+namespace sonycsl_openecho {
+
 const unsigned char EchoFrame::EHD1 = 0x10;
 const unsigned char EchoFrame::EHD2 = 0x81;
 
@@ -199,3 +202,5 @@ EchoFrame::EchoFrame() {
 void EchoFrame::addProperty(const EchoProperty& property) {
 	mPropertyList.push_back(property);
 }
+
+};

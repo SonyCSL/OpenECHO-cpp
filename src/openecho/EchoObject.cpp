@@ -8,6 +8,9 @@
 #include "EchoObject.h"
 #include "OpenECHO.h"
 
+
+namespace sonycsl_openecho {
+
 EchoObject::EchoObject() {
 	// TODO Auto-generated constructor stub
 
@@ -684,4 +687,6 @@ EchoObject::InformerC& EchoObject::InformerC::reqInformProperty(unsigned char ep
 std::shared_ptr<EchoObject::Receiver> EchoObject::getReceiver() {
 	return mReceiver;
 }
+
+};
 

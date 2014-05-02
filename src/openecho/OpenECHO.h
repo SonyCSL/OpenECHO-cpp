@@ -26,8 +26,6 @@
 #include "NodeProfile.h"
 #include "DeviceObject.h"
 
-#include "EchoDevice.h"
-
 #include "EchoProtocol.h"
 #include "EchoUDPProtocol.h"
 

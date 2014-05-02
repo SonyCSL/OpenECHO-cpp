@@ -14,6 +14,8 @@
 #include <set>
 #include <string>
 
+namespace sonycsl_openecho {
+
 class EchoFrame;
 class EchoNode;
 class EchoProperty;
@@ -180,6 +182,9 @@ public:
 		EchoFrame sendTCP();
 		virtual EchoObject::InformerC& reqInformProperty(unsigned char epc);
 	};
+};
+
+
 };
 
 #endif /* ECHOOBJECT_H_ */

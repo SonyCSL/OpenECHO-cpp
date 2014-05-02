@@ -27,6 +27,8 @@
 #include <arpa/inet.h>
 
 
+namespace sonycsl_openecho {
+
 class EchoFrame;
 class EchoNode;
 class EchoObject;
@@ -82,6 +84,8 @@ public:
 	static void* taskPerformerThread(void*);
 	static void receive();
 	static void performTasks();
+};
+
 };
 
 #endif /* ECHOSOCKET_H_ */

@@ -29,6 +29,9 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+
+namespace sonycsl_openecho {
+
 class EchoUDPProtocol: public EchoProtocol {
 public:
 	static const int UDP_MAX_PACKET_SIZE;
@@ -64,6 +67,8 @@ public:
 protected:
 	virtual void respond(const EchoFrame& response);
 	virtual void informAll(const EchoFrame& response);
+};
+
 };
 
 #endif /* ECHOUDPPROTOCOL_H_ */

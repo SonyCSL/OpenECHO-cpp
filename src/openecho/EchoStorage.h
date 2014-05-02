@@ -10,6 +10,10 @@
 
 #include <map>
 
+
+namespace sonycsl_openecho {
+
+
 class EchoStorage {
 protected:
 	unsigned short mTID;
@@ -20,6 +24,8 @@ public:
 	// TID
 	unsigned short getInitialTID();
 	void setNextTID(unsigned short tid);
+
+};
 
 };
 

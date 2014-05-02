@@ -8,6 +8,9 @@
 #include "EchoProtocol.h"
 #include "OpenECHO.h"
 
+
+namespace sonycsl_openecho {
+
 EchoProtocol::EchoProtocol() {
 	// TODO Auto-generated constructor stub
 
@@ -257,3 +260,5 @@ void EchoTask::checkObjectInFrame() {
 		return;
 	}
 }
+
+};

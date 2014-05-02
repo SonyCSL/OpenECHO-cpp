@@ -9,6 +9,8 @@
 #include "OpenECHO.h"
 
 
+namespace sonycsl_openecho {
+
 std::shared_ptr<EchoStorage> Echo::sStorage;
 std::shared_ptr<EchoNode> Echo::sSelfNode;
 std::map<std::string, std::shared_ptr<EchoNode> > Echo::sOtherNodes;
@@ -153,3 +155,5 @@ void Echo::EventListener::onNewNodeProfile(
 
 void Echo::EventListener::onNewDevice(std::shared_ptr<DeviceObject> device) {
 }
+
+};

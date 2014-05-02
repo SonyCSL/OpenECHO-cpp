@@ -10,6 +10,8 @@
 
 #include "EchoObject.h"
 
+namespace sonycsl_openecho {
+
 class DeviceObject: public EchoObject {
 public:
 	class Receiver;
@@ -283,6 +285,8 @@ public:
 	virtual std::shared_ptr<std::vector<unsigned char> > getInstallationLocation();
 	virtual std::shared_ptr<std::vector<unsigned char> > getFaultStatus();
 	virtual std::shared_ptr<std::vector<unsigned char> > getManufacturerCode();
+};
+
 };
 
 #endif /* DEVICEOBJECT_H_ */

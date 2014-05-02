@@ -9,6 +9,8 @@
 #include "OpenECHO.h"
 
 
+namespace sonycsl_openecho {
+
 EchoNode::EchoNode(std::shared_ptr<NodeProfile> nodeProfile,
 		std::vector<std::shared_ptr<DeviceObject> > devices) {
 	// self node
@@ -165,4 +167,6 @@ DeviceObject* EchoNode::newOtherDevice(unsigned short echoClassCode,
 
 	return device;
 }
+
+};
 

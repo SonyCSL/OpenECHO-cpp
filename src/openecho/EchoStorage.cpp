@@ -7,6 +7,8 @@
 
 #include "EchoStorage.h"
 
+namespace sonycsl_openecho {
+
 EchoStorage::EchoStorage() {
 	mTID = 0;
 
@@ -24,3 +26,4 @@ void EchoStorage::setNextTID(unsigned short tid) {
 	mTID = tid;
 }
 
+};

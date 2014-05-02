@@ -14,6 +14,10 @@
 #include <string>
 #include <memory>
 
+
+namespace sonycsl_openecho {
+
+
 class EchoObject;
 class NodeProfile;
 class DeviceObject;
@@ -51,6 +55,8 @@ public:
 	std::vector<std::shared_ptr<DeviceObject> > getDevices(unsigned short echoClassCode);
 private:
 	static DeviceObject* newOtherDevice(unsigned short echoClassCode, unsigned char echoInstanceCode);
+};
+
 };
 
 #endif /* ECHONODE_H_ */

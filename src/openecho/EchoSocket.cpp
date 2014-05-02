@@ -8,6 +8,9 @@
 
 #include "EchoSocket.h"
 
+namespace sonycsl_openecho {
+
+
 const std::string EchoSocket::SELF_ADDRESS = "127.0.0.1";
 const std::string EchoSocket::MULTICAST_ADDRESS = "224.0.23.0";
 bool EchoSocket::sRunningReceiverThread = false;
@@ -116,3 +119,5 @@ void EchoSocket::performTasks() {
 		task = dequeueTask();
 	}
 }
+
+};

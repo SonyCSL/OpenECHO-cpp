@@ -8,6 +8,9 @@
 #include "EchoUDPProtocol.h"
 #include "OpenECHO.h"
 
+
+namespace sonycsl_openecho {
+
 const int EchoUDPProtocol::UDP_MAX_PACKET_SIZE = 65507;
 const int EchoUDPProtocol::PORT = 3610;
 
@@ -166,3 +169,5 @@ void UDPProtocolTask::respond(const EchoFrame& response) {
 void UDPProtocolTask::informAll(const EchoFrame& response) {
 	mProtocol.sendUDP(response);
 }
+
+};

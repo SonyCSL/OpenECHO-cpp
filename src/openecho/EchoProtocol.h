@@ -11,6 +11,7 @@
 #include <memory>
 #include <vector>
 
+namespace sonycsl_openecho {
 
 class EchoFrame;
 class EchoObject;
@@ -42,6 +43,9 @@ protected:
 	EchoFrame onReceiveRequest(std::shared_ptr<EchoObject> deoj);
 	void onReceiveReport();
 	void checkObjectInFrame();
+
+};
+
 
 };
 

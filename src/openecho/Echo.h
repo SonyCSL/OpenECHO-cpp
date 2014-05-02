@@ -13,6 +13,8 @@
 #include <string>
 #include <memory>
 
+namespace sonycsl_openecho {
+
 class EchoStorage;
 class EchoNode;
 class EchoObject;
@@ -70,6 +72,8 @@ public:
 	class Logger : public EventListener {
 
 	};
+};
+
 };
 
 #endif /* ECHO_H_ */

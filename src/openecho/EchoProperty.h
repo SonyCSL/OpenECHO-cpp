@@ -10,6 +10,9 @@
 
 #include "OpenECHO.h"
 
+
+namespace sonycsl_openecho {
+
 class EchoProperty {
 public:
 	unsigned char epc;
@@ -22,6 +25,8 @@ public:
 	EchoProperty(const EchoProperty& property);
 	EchoProperty &operator =(const EchoProperty &property);
 	int size() const;
+};
+
 };
 
 #endif /* ECHOPROPERTY_H_ */

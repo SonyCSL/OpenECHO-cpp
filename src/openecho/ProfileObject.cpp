@@ -8,6 +8,8 @@
 #include "ProfileObject.h"
 #include "OpenECHO.h"
 
+namespace sonycsl_openecho {
+
 const unsigned char ProfileObject::EPC_FAULT_STATUS = 0x88;
 const unsigned char ProfileObject::EPC_MANUFACTURER_CODE = 0x8A;
 const unsigned char ProfileObject::EPC_PLACE_OF_BUSINESS_CODE = 0x8B;
@@ -445,3 +447,5 @@ ProfileObject::Informer& ProfileObject::Informer::reqInformSetPropertyMap() {
 ProfileObject::Informer& ProfileObject::Informer::reqInformGetPropertyMap() {
 	return reqInformProperty(EPC_GET_PROPERTY_MAP);
 }
+
+};

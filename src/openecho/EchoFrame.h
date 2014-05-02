@@ -10,6 +10,10 @@
 
 #include "OpenECHO.h"
 
+
+namespace sonycsl_openecho {
+
+
 class EchoProperty;
 
 class EchoFrame {
@@ -77,6 +81,8 @@ public:
 	void addPropertyForResponse(const unsigned char epc, const std::vector<unsigned char>& edt);
 	void addPropertyForResponse(const EchoProperty& property);
 	void addProperty(const EchoProperty& property);
+};
+
 };
 
 #endif /* ECHOFRAME_H_ */

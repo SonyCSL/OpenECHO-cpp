@@ -7,6 +7,8 @@
 
 #include "EchoUtils.h"
 
+namespace sonycsl_openecho {
+
 std::map<unsigned short, unsigned char> EchoUtils::sAllocatedSelfDeviceInstanceCode;
 
 long EchoUtils::convertToEchoObjectCode(unsigned short echoClassCode,
@@ -88,3 +90,5 @@ unsigned char EchoUtils::allocateSelfDeviceInstanceCode(
 		return sAllocatedSelfDeviceInstanceCode[echoClassCode];
 	}
 }
+
+};

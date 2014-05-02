@@ -13,6 +13,8 @@
 #include <set>
 #include <map>
 
+namespace sonycsl_openecho {
+
 class EchoUtils {
 private:
 	EchoUtils();
@@ -28,6 +30,8 @@ private:
 	static std::map<unsigned short, unsigned char> sAllocatedSelfDeviceInstanceCode;
 public:
 	static unsigned char allocateSelfDeviceInstanceCode(unsigned short echoClassCode);
+};
+
 };
 
 #endif /* ECHOUTILS_H_ */

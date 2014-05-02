@@ -9,6 +9,7 @@
 #include "OpenECHO.h"
 #include <algorithm>
 
+namespace sonycsl_openecho {
 
 const unsigned short NodeProfile::ECHO_CLASS_CODE = 0x0EF0;
 const unsigned char NodeProfile::INSTANCE_CODE = 0x01;
@@ -734,3 +735,5 @@ std::shared_ptr<std::vector<unsigned char> > NodeProfile::Proxy::getOperatingSta
 std::shared_ptr<std::vector<unsigned char> > NodeProfile::Proxy::getIdentificationNumber() {
 	return std::shared_ptr<std::vector<unsigned char> >();
 }
+
+};

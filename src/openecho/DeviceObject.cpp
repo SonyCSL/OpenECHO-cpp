@@ -8,6 +8,9 @@
 #include "DeviceObject.h"
 #include "OpenECHO.h"
 
+
+namespace sonycsl_openecho {
+
 const unsigned char DeviceObject::EPC_OPERATION_STATUS = 0x80;
 const unsigned char DeviceObject::EPC_INSTALLATION_LOCATION = 0x81;
 const unsigned char DeviceObject::EPC_STANDARD_VERSION_INFORMATION = 0x82;
@@ -1069,3 +1072,5 @@ std::shared_ptr<std::vector<unsigned char> > DeviceObject::Proxy::getFaultStatus
 std::shared_ptr<std::vector<unsigned char> > DeviceObject::Proxy::getManufacturerCode() {
 	return std::shared_ptr<std::vector<unsigned char> >();
 }
+
+};

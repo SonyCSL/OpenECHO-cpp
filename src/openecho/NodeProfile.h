@@ -10,6 +10,8 @@
 
 #include "ProfileObject.h"
 
+namespace sonycsl_openecho {
+
 class NodeProfile: public ProfileObject {
 public:
 	class Receiver;
@@ -208,6 +210,8 @@ protected:
 	virtual std::shared_ptr<std::vector<unsigned char> > getManufacturerCode();
 	virtual std::shared_ptr<std::vector<unsigned char> > getOperatingStatus();
 	virtual std::shared_ptr<std::vector<unsigned char> > getIdentificationNumber();
+};
+
 };
 
 #endif /* NODEPROFILE_H_ */
