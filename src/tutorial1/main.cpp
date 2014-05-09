@@ -15,20 +15,20 @@ using namespace std;
 using namespace sonycsl_openecho;
 
 
-class MyNodeProfile : public NodeProfile {
+class DefaultNodeProfile : public NodeProfile {
 
 public:
-	MyNodeProfile(){}
-	virtual ~MyNodeProfile(){}
+	DefaultNodeProfile(){}
+	virtual ~DefaultNodeProfile(){}
 protected:
-	virtual std::shared_ptr<std::vector<unsigned char> > getManufacturerCode() {
-		return std::shared_ptr<std::vector<unsigned char> >();
+	virtual shared_ptr<vector<unsigned char> > getManufacturerCode() {
+		return shared_ptr<vector<unsigned char> >();
 	}
-	virtual std::shared_ptr<std::vector<unsigned char> > getOperatingStatus() {
-		return std::shared_ptr<std::vector<unsigned char> >();
+	virtual shared_ptr<vector<unsigned char> > getOperatingStatus() {
+		return shared_ptr<vector<unsigned char> >();
 	}
-	virtual std::shared_ptr<std::vector<unsigned char> > getIdentificationNumber() {
-		return std::shared_ptr<std::vector<unsigned char> >();
+	virtual shared_ptr<vector<unsigned char> > getIdentificationNumber() {
+		return shared_ptr<vector<unsigned char> >();
 	}
 };
 
@@ -38,54 +38,76 @@ public:
 	MyNodeProfileReceiver(){}
 	virtual ~MyNodeProfileReceiver(){}
 protected:
-	virtual void onGetInstanceListNotification(std::shared_ptr<EchoObject> eoj, unsigned short tid, unsigned char esv, EchoProperty& property, bool success) {
+	virtual void onGetInstanceListNotification(shared_ptr<EchoObject> eoj, unsigned short tid, unsigned char esv, EchoProperty& property, bool success) {
 		cerr << "onGetInstanceListNotification" << endl;
 	}
 };
-class MyController : public DeviceObject {
+class DefaultController : public DeviceObject {
 
 public:
-	MyController(){}
-	virtual ~MyController(){}
+	DefaultController(){}
+	virtual ~DefaultController(){}
 
 	virtual unsigned short getEchoClassCode() {
 		return 0x05FF;
 	}
 protected:
-	virtual std::shared_ptr<std::vector<unsigned char> > getOperationStatus() {
-		return std::shared_ptr<std::vector<unsigned char> >();
+	virtual shared_ptr<vector<unsigned char> > getOperationStatus() {
+		return shared_ptr<vector<unsigned char> >();
 	}
-	virtual bool setInstallationLocation(std::vector<unsigned char>& edt) {
+	virtual bool setInstallationLocation(vector<unsigned char>& edt) {
 		return false;
 	}
-	virtual std::shared_ptr<std::vector<unsigned char> > getInstallationLocation() {
-		return std::shared_ptr<std::vector<unsigned char> >();
+	virtual shared_ptr<vector<unsigned char> > getInstallationLocation() {
+		return shared_ptr<vector<unsigned char> >();
 	}
-	virtual std::shared_ptr<std::vector<unsigned char> > getFaultStatus() {
-		return std::shared_ptr<std::vector<unsigned char> >();
+	virtual shared_ptr<vector<unsigned char> > getFaultStatus() {
+		return shared_ptr<vector<unsigned char> >();
 	}
-	virtual std::shared_ptr<std::vector<unsigned char> > getManufacturerCode() {
-		return std::shared_ptr<std::vector<unsigned char> >();
+	virtual shared_ptr<vector<unsigned char> > getManufacturerCode() {
+		return shared_ptr<vector<unsigned char> >();
 	}
 };
 
 
 int main() {
-	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
-	std::shared_ptr<MyNodeProfile> profile(new MyNodeProfile());
-	std::vector<std::shared_ptr<DeviceObject> > devices;
-	devices.push_back(std::shared_ptr<DeviceObject>(new MyController()));
+	shared_ptr<DefaultNodeProfile> profile(new DefaultNodeProfile());
+	vector<shared_ptr<DeviceObject> > devices;
+	devices.push_back(shared_ptr<DeviceObject>(new DefaultController()));
 
-	profile.get()->setReceiver(std::shared_ptr<EchoObject::Receiver>(new MyNodeProfileReceiver()));
-
-	//while(true){}
 	Echo::start(profile, devices);
 
-	while(true){
-		sleep(5);
+	while(true) {
 		NodeProfile::Getter(NodeProfile::ECHO_CLASS_CODE
 				, NodeProfile::INSTANCE_CODE
-				, EchoSocket::MULTICAST_ADDRESS).reqGetSelfNodeInstanceListS().send();}
+				, EchoSocket::MULTICAST_ADDRESS).reqGetSelfNodeInstanceListS().send();
+
+
+		vector<shared_ptr<EchoNode> > nodes = Echo::getNodes();
+		shared_ptr<EchoNode> local = Echo::getSelfNode();
+
+		for(shared_ptr<EchoNode> en : nodes) {
+			if(en.get()->isSelfNode()) {
+				cout << "Node id = " << en.get()->getAddress() << "(local)" << endl;
+			} else {
+				cout << "Node id = " << en.get()->getAddress() << endl;
+			}
+
+			cout << " Node Profile = instanceCode:" << hex << (int)en.get()->getNodeProfile().get()->getInstanceCode() << endl;
+
+			cout << " Devices" << endl;
+			vector<shared_ptr<DeviceObject> > dos = en.get()->getDevices();
+
+			for(shared_ptr<DeviceObject> d : dos) {
+				cout << "  class:" << hex << d.get()->getEchoClassCode() << ",instanceCode:" << hex << (int)d.get()->getInstanceCode() << endl;
+			}
+			cout << "----" << endl;
+		}
+		cout << "--------" << endl;
+
+
+		sleep(10);
+	}
 
 
 
