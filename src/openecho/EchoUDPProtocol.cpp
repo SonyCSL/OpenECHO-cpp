@@ -41,14 +41,17 @@ void EchoUDPProtocol::openUDP() {
 	mReceiverIpMreq.imr_interface.s_addr = INADDR_ANY;
 	mReceiverIpMreq.imr_multiaddr.s_addr = inet_addr(EchoSocket::MULTICAST_ADDRESS.c_str());
 
-	u_char loop = 0; // 0 = invalid, 1 = valid(default);
+	//u_char loop = 0; // 0 = invalid, 1 = valid(default);
+
+	in_addr_t ipaddr = inet_addr(EchoSocket::SELF_ADDRESS.c_str());
 	if(setsockopt(mReceiverSock
 		, IPPROTO_IP
 		//, IP_MULTICAST_LOOP
 		, IP_MULTICAST_IF
-		, &loop
-		, sizeof(loop)) != 0) {
-		perror("EchoUDPProtocol::open()[IP_MULTICAST_LOOP]");
+		, (char *)&ipaddr, sizeof(ipaddr)) != 0) {
+		//, &loop
+		//, sizeof(loop)) != 0) {
+		perror("EchoUDPProtocol::open()[IP_MULTICAST_IF]");
 		return;
 	}
 	if (setsockopt(mReceiverSock
