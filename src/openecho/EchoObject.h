@@ -44,8 +44,8 @@ private:
 	EchoObject(const EchoObject& src); // non-copyable
 
 public:
-	void onNew();
-	void onFound();
+	virtual void onNew(std::shared_ptr<EchoObject> eoj);
+	virtual void onFound(std::shared_ptr<EchoObject> eoj);
 	unsigned char getClassGroupCode();
 	unsigned char getClassCode();
 	virtual unsigned char getInstanceCode() = 0;

@@ -55,6 +55,9 @@ public:
 
 public:
 	virtual unsigned char getInstanceCode();
+
+	virtual void onNew(std::shared_ptr<EchoObject> eoj);
+
 	virtual void allocateSelfDeviceInstanceCode();
 
 	virtual bool setProperty(EchoProperty& property);

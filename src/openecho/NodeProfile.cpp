@@ -41,6 +41,14 @@ NodeProfile::~NodeProfile() {
 	// TODO Auto-generated destructor stub
 }
 
+
+
+void NodeProfile::onNew(std::shared_ptr<EchoObject> eoj) {
+	ProfileObject::onNew(eoj);
+	std::shared_ptr<NodeProfile> profile = std::dynamic_pointer_cast<NodeProfile>(eoj);
+	Echo::getEventListenerDelegate().onNewNodeProfile(profile);
+}
+
 unsigned char NodeProfile::getInstanceCode() {
 	return INSTANCE_CODE;
 }
@@ -736,4 +744,5 @@ std::shared_ptr<std::vector<unsigned char> > NodeProfile::Proxy::getIdentificati
 	return std::shared_ptr<std::vector<unsigned char> >();
 }
 
-};
+}
+;

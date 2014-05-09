@@ -274,10 +274,12 @@ std::shared_ptr<std::set<unsigned char> > EchoObject::getGetProperties() {
 	return mGetProperties;
 }
 
-void EchoObject::onNew() {
+void EchoObject::onNew(std::shared_ptr<EchoObject> eoj) {
+	Echo::getEventListenerDelegate().onNewEchoObject(eoj);
 }
 
-void EchoObject::onFound() {
+void EchoObject::onFound(std::shared_ptr<EchoObject> eoj) {
+	Echo::getEventListenerDelegate().onFoundEchoObject(eoj);
 }
 
 void EchoObject::onReceiveGetRequest(unsigned char epc, EchoFrame& response) {

@@ -175,9 +175,9 @@ void EchoTask::checkObjectInFrame() {
 
 		if(seoj.get() == nullptr) {
 			if(flagNewNode) {
-				node.get()->onNew();
+				node.get()->onNew(node);
 			}
-			node.get()->onFound();
+			node.get()->onFound(node);
 			return;
 		} else {seoj.get()->setNode(node);}
 	}
@@ -227,36 +227,36 @@ void EchoTask::checkObjectInFrame() {
 		}
 
 		if(flagNewNode) {
-			node.get()->onNew();
+			node.get()->onNew(node);
 		}
-		node.get()->onFound();
+		node.get()->onFound(node);
 		if(flagNewDevice) {
-			seoj.get()->onNew();
+			seoj.get()->onNew(seoj);
 		}
-		seoj.get()->onFound();
+		seoj.get()->onFound(seoj);
 		int foundDeviceListSize = foundDevices.size();
 		for(int i = 0; i < foundDeviceListSize; i++) {
 			if(flagNewDevices.at(i) == TRUE) {
 				//Echo.getEventListener().onNewEchoObject(foundDevices.get(i));
-				foundDevices.at(i).get()->onNew();
+				foundDevices.at(i).get()->onNew(foundDevices.at(i));
 			}
 			//Echo.getEventListener().onFoundEchoObject(foundDevices.get(i));
-			foundDevices.at(i).get()->onFound();
+			foundDevices.at(i).get()->onFound(foundDevices.at(i));
 		}
 	} else {
 		// seoj is DeviceObject
 		if(flagNewNode) {
 			//Echo.getEventListener().onNewNode(node);
-			node.get()->onNew();
+			node.get()->onNew(node);
 		}
 		//Echo.getEventListener().onFoundNode(node);
-		node.get()->onFound();
+		node.get()->onFound(node);
 		if(flagNewDevice) {
 			//Echo.getEventListener().onNewEchoObject(seoj);
-			seoj.get()->onNew();
+			seoj.get()->onNew(seoj);
 		}
 		//Echo.getEventListener().onFoundEchoObject(seoj);
-		seoj.get()->onFound();
+		seoj.get()->onFound(seoj);
 		return;
 	}
 }

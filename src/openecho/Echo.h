@@ -10,6 +10,7 @@
 
 #include <map>
 #include <vector>
+#include <list>
 #include <string>
 #include <memory>
 
@@ -25,13 +26,14 @@ class Echo {
 public:
 	class EventListener;
 private:
+	class EventListenerDelegate;
+private:
 	static std::shared_ptr<EchoStorage> sStorage;
 
 	static std::shared_ptr<EchoNode> sSelfNode;
 	static std::map<std::string, std::shared_ptr<EchoNode> > sOtherNodes;
 
-	static Echo::EventListener sListener;
-	static std::vector<std::shared_ptr<Echo::EventListener> > sEventListeners;
+	static Echo::EventListenerDelegate sEventListenerDelegate;
 
 private:
 	Echo();
@@ -49,7 +51,10 @@ public:
 	static void setStorage(std::shared_ptr<EchoStorage> storage);
 	static std::shared_ptr<EchoStorage> getStorage();
 
-	static Echo::EventListener& getEventListener();
+	static Echo::EventListener& getEventListenerDelegate();
+
+	static void addEventListener(std::shared_ptr<Echo::EventListener> eventListener);
+	static void removeEventListener(std::shared_ptr<Echo::EventListener> eventListener);
 
 	static std::shared_ptr<EchoNode> getSelfNode();
 	static std::vector<std::shared_ptr<EchoNode> > getNodes();
@@ -61,6 +66,8 @@ public:
 public:
 	class EventListener {
 	public:
+		EventListener();
+		virtual ~EventListener();
 		virtual void onNewNode(std::shared_ptr<EchoNode> node);
 		virtual void onFoundNode(std::shared_ptr<EchoNode> node);
 		virtual void onNewEchoObject(std::shared_ptr<EchoObject> eoj);
@@ -69,6 +76,25 @@ public:
 		virtual void onNewDevice(std::shared_ptr<DeviceObject> device);
 	};
 
+private:
+	class EventListenerDelegate : public EventListener {
+	private:
+		std::list<std::shared_ptr<Echo::EventListener> > mEventListeners;
+
+	public:
+		void addEventListener(std::shared_ptr<Echo::EventListener> eventListener);
+		void removeEventListener(std::shared_ptr<Echo::EventListener> eventListener);
+
+		virtual void onNewNode(std::shared_ptr<EchoNode> node);
+		virtual void onFoundNode(std::shared_ptr<EchoNode> node);
+		virtual void onNewEchoObject(std::shared_ptr<EchoObject> eoj);
+		virtual void onFoundEchoObject(std::shared_ptr<EchoObject> eoj);
+		virtual void onNewNodeProfile(std::shared_ptr<NodeProfile> profile);
+		virtual void onNewDevice(std::shared_ptr<DeviceObject> device);
+
+	};
+
+public:
 	class Logger : public EventListener {
 
 	};

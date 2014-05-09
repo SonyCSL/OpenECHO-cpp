@@ -14,8 +14,7 @@ namespace sonycsl_openecho {
 std::shared_ptr<EchoStorage> Echo::sStorage;
 std::shared_ptr<EchoNode> Echo::sSelfNode;
 std::map<std::string, std::shared_ptr<EchoNode> > Echo::sOtherNodes;
-Echo::EventListener Echo::sListener;
-std::vector<std::shared_ptr<Echo::EventListener> > Echo::sEventListeners;
+Echo::EventListenerDelegate Echo::sEventListenerDelegate;
 
 Echo::Echo() {
 	// TODO Auto-generated constructor stub
@@ -47,15 +46,15 @@ std::shared_ptr<EchoNode> Echo::start(
 	//Echo::getEventListener().onFoundNode(sSelfNode);
 	//sSelfNode.get()->onNewNode();
 	//sSelfNode.get()->onFoundNode();
-	sSelfNode.get()->onNew();
-	sSelfNode.get()->onFound();
+	sSelfNode.get()->onNew(sSelfNode);
+	sSelfNode.get()->onFound(sSelfNode);
 
-	sSelfNode.get()->getNodeProfile().get()->onNew();
-	sSelfNode.get()->getNodeProfile().get()->onFound();
+	sSelfNode.get()->getNodeProfile().get()->onNew(sSelfNode.get()->getNodeProfile());
+	sSelfNode.get()->getNodeProfile().get()->onFound(sSelfNode.get()->getNodeProfile());
 
 	for(int i = 0; i < devicesSize; i++) {
-		devices.at(i).get()->onNew();
-		devices.at(i).get()->onFound();
+		devices.at(i).get()->onNew(devices.at(i));
+		devices.at(i).get()->onFound(devices.at(i));
 
 	}
 
@@ -82,8 +81,8 @@ std::shared_ptr<EchoStorage> Echo::getStorage() {
 	return sStorage;
 }
 
-Echo::EventListener& Echo::getEventListener() {
-	return sListener;
+Echo::EventListener& Echo::getEventListenerDelegate() {
+	return sEventListenerDelegate;
 }
 
 std::shared_ptr<EchoNode> Echo::getSelfNode() {
@@ -127,6 +126,16 @@ std::shared_ptr<EchoNode> Echo::addOtherNode(std::string address) {
 	return node;
 }
 
+void Echo::addEventListener(
+		std::shared_ptr<Echo::EventListener> eventListener) {
+	sEventListenerDelegate.addEventListener(eventListener);
+}
+
+void Echo::removeEventListener(
+		std::shared_ptr<Echo::EventListener> eventListener) {
+	sEventListenerDelegate.removeEventListener(eventListener);
+}
+
 void Echo::removeOtherNode(std::string address) {
 	if (sOtherNodes.find(address) == sOtherNodes.end()) {
 		//std::shared_ptr<EchoNode> node;
@@ -153,7 +162,83 @@ void Echo::EventListener::onNewNodeProfile(
 		std::shared_ptr<NodeProfile> profile) {
 }
 
+Echo::EventListener::EventListener() {
+}
+
+Echo::EventListener::~EventListener() {
+}
+
 void Echo::EventListener::onNewDevice(std::shared_ptr<DeviceObject> device) {
+}
+
+void Echo::EventListenerDelegate::addEventListener(
+		std::shared_ptr<Echo::EventListener> eventListener) {
+	mEventListeners.push_back(eventListener);
+
+}
+
+void Echo::EventListenerDelegate::removeEventListener(
+		std::shared_ptr<Echo::EventListener> eventListener) {
+	std::list<std::shared_ptr<Echo::EventListener> >::iterator it = mEventListeners.begin();
+	while( it != mEventListeners.end() ) {
+		if((*it).get() == eventListener.get()) {
+			mEventListeners.erase(it);
+			break;
+		}
+		++it;
+	}
+}
+
+void Echo::EventListenerDelegate::onNewNode(std::shared_ptr<EchoNode> node) {
+	std::list<std::shared_ptr<Echo::EventListener> >::iterator it = mEventListeners.begin();
+	while( it != mEventListeners.end() ) {
+		(*it).get()->onNewNode(node);
+		++it;
+	}
+}
+
+void Echo::EventListenerDelegate::onFoundNode(std::shared_ptr<EchoNode> node) {
+	std::list<std::shared_ptr<Echo::EventListener> >::iterator it = mEventListeners.begin();
+	while( it != mEventListeners.end() ) {
+		(*it).get()->onFoundNode(node);
+		++it;
+	}
+}
+
+void Echo::EventListenerDelegate::onNewEchoObject(
+		std::shared_ptr<EchoObject> eoj) {
+	std::list<std::shared_ptr<Echo::EventListener> >::iterator it = mEventListeners.begin();
+	while( it != mEventListeners.end() ) {
+		(*it).get()->onNewEchoObject(eoj);
+		++it;
+	}
+}
+
+void Echo::EventListenerDelegate::onFoundEchoObject(
+		std::shared_ptr<EchoObject> eoj) {
+	std::list<std::shared_ptr<Echo::EventListener> >::iterator it = mEventListeners.begin();
+	while( it != mEventListeners.end() ) {
+		(*it).get()->onFoundEchoObject(eoj);
+		++it;
+	}
+}
+
+void Echo::EventListenerDelegate::onNewNodeProfile(
+		std::shared_ptr<NodeProfile> profile) {
+	std::list<std::shared_ptr<Echo::EventListener> >::iterator it = mEventListeners.begin();
+	while( it != mEventListeners.end() ) {
+		(*it).get()->onNewNodeProfile(profile);
+		++it;
+	}
+}
+
+void Echo::EventListenerDelegate::onNewDevice(
+		std::shared_ptr<DeviceObject> device) {
+	std::list<std::shared_ptr<Echo::EventListener> >::iterator it = mEventListeners.begin();
+	while( it != mEventListeners.end() ) {
+		(*it).get()->onNewDevice(device);
+		++it;
+	}
 }
 
 };

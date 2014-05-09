@@ -40,8 +40,8 @@ private:
 	EchoNode(const EchoNode& src); // non-copyable
 
 public:
-	void onNew();
-	void onFound();
+	void onNew(std::shared_ptr<EchoNode> node);
+	void onFound(std::shared_ptr<EchoNode> node);
 	bool isProxy();
 	bool isSelfNode();
 	std::shared_ptr<NodeProfile> getNodeProfile();

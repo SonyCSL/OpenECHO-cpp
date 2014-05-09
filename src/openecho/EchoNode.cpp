@@ -75,8 +75,8 @@ void EchoNode::addDevice(std::shared_ptr<DeviceObject> device) {
 		device.get()->allocateSelfDeviceInstanceCode();
 		device.get()->setNode(Echo::getSelfNode());
 		mDevices.push_back(device);
-		device.get()->onNew();
-		device.get()->onFound();
+		device.get()->onNew(device);
+		device.get()->onFound(device);
 	} else {
 		mDevices.push_back(device);
 	}
@@ -154,10 +154,12 @@ std::vector<std::shared_ptr<DeviceObject> > EchoNode::getDevices(
 	return ret;
 }
 
-void EchoNode::onNew() {
+void EchoNode::onNew(std::shared_ptr<EchoNode> node) {
+	Echo::getEventListenerDelegate().onNewNode(node);
 }
 
-void EchoNode::onFound() {
+void EchoNode::onFound(std::shared_ptr<EchoNode> node) {
+	Echo::getEventListenerDelegate().onFoundNode(node);
 }
 
 DeviceObject* EchoNode::newOtherDevice(unsigned short echoClassCode,

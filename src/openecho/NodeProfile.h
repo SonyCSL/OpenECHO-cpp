@@ -44,6 +44,8 @@ public:
 	NodeProfile();
 	virtual ~NodeProfile();
 
+	virtual void onNew(std::shared_ptr<EchoObject> eoj);
+
 	virtual unsigned char getInstanceCode();
 	virtual unsigned short getEchoClassCode();
 
