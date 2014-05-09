@@ -30,6 +30,8 @@
 #include <arpa/inet.h>
 
 #include <net/if.h>
+#include <ifaddrs.h>
+
 
 
 namespace sonycsl_openecho {
@@ -56,6 +58,9 @@ public:
 	void sendToSelf(const EchoFrame& frame);
 
 	virtual void receive();
+
+protected:
+	bool isLoopback(std::string address);
 
 };
 

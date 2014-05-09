@@ -41,13 +41,6 @@ public:
 	virtual ~MyPowerDistributionBoardMeteringReceiver(){}
 protected:
 
-	virtual void onGetMeasuredInstantaneousCurrents(std::shared_ptr<EchoObject> eoj, unsigned short tid, unsigned char esv, EchoProperty& property, bool success) {
-		cout << "GetMeasuredInstantaneousCurrents IntCur : ";
-		for(unsigned char b : property.edt) {
-			cout << hex << (int)b << " ";
-		}
-		cout << endl;
-	}
 	virtual void onGetOperationStatus(std::shared_ptr<EchoObject> eoj, unsigned short tid, unsigned char esv, EchoProperty& property, bool success) {
 		cout << "PowerDistributionBoardMetering power : ";
 		for(unsigned char b : property.edt) {
@@ -61,7 +54,11 @@ protected:
 		if(ret) return true;
 		switch(property.epc) {
 		case ((unsigned char)0xC7) :
-			onGetMeasuredInstantaneousCurrents(eoj, tid, esv, property, success);
+			cout << "GetMeasuredInstantaneousCurrents IntCur : ";
+			for(unsigned char b : property.edt) {
+				cout << hex << (int)b << " ";
+			}
+			cout << endl;
 			return true;
 		default :
 			return false;
