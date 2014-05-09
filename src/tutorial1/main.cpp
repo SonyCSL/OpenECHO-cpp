@@ -32,16 +32,6 @@ protected:
 	}
 };
 
-class MyNodeProfileReceiver : public NodeProfile::Receiver {
-
-public:
-	MyNodeProfileReceiver(){}
-	virtual ~MyNodeProfileReceiver(){}
-protected:
-	virtual void onGetInstanceListNotification(shared_ptr<EchoObject> eoj, unsigned short tid, unsigned char esv, EchoProperty& property, bool success) {
-		cerr << "onGetInstanceListNotification" << endl;
-	}
-};
 class DefaultController : public DeviceObject {
 
 public:
