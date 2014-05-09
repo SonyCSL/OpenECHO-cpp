@@ -29,6 +29,8 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+#include <net/if.h>
+
 
 namespace sonycsl_openecho {
 

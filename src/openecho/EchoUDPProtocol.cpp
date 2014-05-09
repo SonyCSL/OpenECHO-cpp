@@ -41,19 +41,24 @@ void EchoUDPProtocol::openUDP() {
 	mReceiverIpMreq.imr_interface.s_addr = INADDR_ANY;
 	mReceiverIpMreq.imr_multiaddr.s_addr = inet_addr(EchoSocket::MULTICAST_ADDRESS.c_str());
 
-	//u_char loop = 0; // 0 = invalid, 1 = valid(default);
+	u_char loop = 0; // 0 = invalid, 1 = valid(default);
+	if(setsockopt(mReceiverSock
+		, IPPROTO_IP
+		, IP_MULTICAST_LOOP
+		, &loop , sizeof(loop)) != 0) {
+		perror("EchoUDPProtocol::open()[IP_MULTICAST_LOOP]");
+		return;
+	}
 
 	in_addr_t ipaddr = inet_addr(EchoSocket::SELF_ADDRESS.c_str());
 	if(setsockopt(mReceiverSock
 		, IPPROTO_IP
-		//, IP_MULTICAST_LOOP
 		, IP_MULTICAST_IF
 		, (char *)&ipaddr, sizeof(ipaddr)) != 0) {
-		//, &loop
-		//, sizeof(loop)) != 0) {
 		perror("EchoUDPProtocol::open()[IP_MULTICAST_IF]");
 		return;
 	}
+
 	if (setsockopt(mReceiverSock
 		, IPPROTO_IP
 		, IP_ADD_MEMBERSHIP
@@ -152,6 +157,23 @@ void EchoUDPProtocol::receive() {
 	const char* caddress = inet_ntoa(from.sin_addr);
 	std::string address = caddress;
 	std::cerr <<":" << address << std::endl;
+
+	// check address
+	int fd;
+	struct ifreq ifr;
+	fd = socket(AF_INET, SOCK_DGRAM, 0);
+	ifr.ifr_addr.sa_family = AF_INET;
+	strncpy(ifr.ifr_name, "en1", IFNAMSIZ-1);
+	ioctl(fd, SIOCGIFADDR, &ifr);
+	close(fd);
+	const char* selfCaddress = inet_ntoa(((struct sockaddr_in *)&ifr.ifr_addr)->sin_addr);
+	std::string selfAddress = selfCaddress;
+	if(address == selfAddress) {
+		return;
+	}
+
+
+
 	EchoFrame frame(address, data);
 
 	std::shared_ptr<EchoTask> task((EchoTask*)(new UDPProtocolTask(frame, *this)));
