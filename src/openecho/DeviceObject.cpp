@@ -60,7 +60,7 @@ unsigned char DeviceObject::getInstanceCode() {
 void DeviceObject::onNew(std::shared_ptr<EchoObject> eoj) {
 	EchoObject::onNew(eoj);
 	std::shared_ptr<DeviceObject> device = std::dynamic_pointer_cast<DeviceObject>(eoj);
-	Echo::getEventListenerDelegate().onNewDevice(device);
+	Echo::getEventListenerDelegate().onNewDeviceObject(device);
 }
 
 bool DeviceObject::setProperty(EchoProperty& property) {

@@ -168,7 +168,7 @@ Echo::EventListener::EventListener() {
 Echo::EventListener::~EventListener() {
 }
 
-void Echo::EventListener::onNewDevice(std::shared_ptr<DeviceObject> device) {
+void Echo::EventListener::onNewDeviceObject(std::shared_ptr<DeviceObject> device) {
 }
 
 void Echo::EventListenerDelegate::addEventListener(
@@ -232,11 +232,11 @@ void Echo::EventListenerDelegate::onNewNodeProfile(
 	}
 }
 
-void Echo::EventListenerDelegate::onNewDevice(
+void Echo::EventListenerDelegate::onNewDeviceObject(
 		std::shared_ptr<DeviceObject> device) {
 	std::list<std::shared_ptr<Echo::EventListener> >::iterator it = mEventListeners.begin();
 	while( it != mEventListeners.end() ) {
-		(*it).get()->onNewDevice(device);
+		(*it).get()->onNewDeviceObject(device);
 		++it;
 	}
 }

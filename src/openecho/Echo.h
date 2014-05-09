@@ -73,7 +73,7 @@ public:
 		virtual void onNewEchoObject(std::shared_ptr<EchoObject> eoj);
 		virtual void onFoundEchoObject(std::shared_ptr<EchoObject> eoj);
 		virtual void onNewNodeProfile(std::shared_ptr<NodeProfile> profile);
-		virtual void onNewDevice(std::shared_ptr<DeviceObject> device);
+		virtual void onNewDeviceObject(std::shared_ptr<DeviceObject> device);
 	};
 
 private:
@@ -90,7 +90,7 @@ private:
 		virtual void onNewEchoObject(std::shared_ptr<EchoObject> eoj);
 		virtual void onFoundEchoObject(std::shared_ptr<EchoObject> eoj);
 		virtual void onNewNodeProfile(std::shared_ptr<NodeProfile> profile);
-		virtual void onNewDevice(std::shared_ptr<DeviceObject> device);
+		virtual void onNewDeviceObject(std::shared_ptr<DeviceObject> device);
 
 	};
 
