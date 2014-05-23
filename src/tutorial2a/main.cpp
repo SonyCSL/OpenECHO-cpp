@@ -84,7 +84,7 @@ class MyEventListener : public Echo::EventListener {
 class DefaultNodeProfile : public NodeProfile {
 
 public:
-	DefaultNodeProfile(){}
+	DefaultNodeProfile() : NodeProfile() {}
 	virtual ~DefaultNodeProfile(){}
 protected:
 	virtual shared_ptr<vector<unsigned char> > getManufacturerCode() {
@@ -101,7 +101,7 @@ protected:
 class DefaultController : public DeviceObject {
 
 public:
-	DefaultController(){}
+	DefaultController() : DeviceObject() {}
 	virtual ~DefaultController(){}
 
 	virtual unsigned short getEchoClassCode() {

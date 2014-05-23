@@ -18,10 +18,16 @@ EchoObject::EchoObject() {
 	mAnnouncementProperties = std::shared_ptr<std::set<unsigned char> >(new std::set<unsigned char>());
 	mSetProperties = std::shared_ptr<std::set<unsigned char> >(new std::set<unsigned char>());
 	mGetProperties = std::shared_ptr<std::set<unsigned char> >(new std::set<unsigned char>());
+
+
 }
 
 EchoObject::~EchoObject() {
 	// TODO Auto-generated destructor stub
+}
+
+void EchoObject::init() {
+	setupPropertyMaps();
 }
 
 unsigned char EchoObject::getClassGroupCode() {
@@ -275,6 +281,7 @@ std::shared_ptr<std::set<unsigned char> > EchoObject::getGetProperties() {
 }
 
 void EchoObject::onNew(std::shared_ptr<EchoObject> eoj) {
+	init();
 	Echo::getEventListenerDelegate().onNewEchoObject(eoj);
 }
 
