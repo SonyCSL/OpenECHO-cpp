@@ -171,6 +171,13 @@ Echo::EventListener::~EventListener() {
 void Echo::EventListener::onNewDeviceObject(std::shared_ptr<DeviceObject> device) {
 }
 
+
+void Echo::EventListener::onSendFrame(EchoFrame& frame) {
+}
+
+void Echo::EventListener::onReceiveFrame(EchoFrame& frame) {
+}
+
 void Echo::EventListenerDelegate::addEventListener(
 		std::shared_ptr<Echo::EventListener> eventListener) {
 	mEventListeners.push_back(eventListener);
@@ -241,4 +248,76 @@ void Echo::EventListenerDelegate::onNewDeviceObject(
 	}
 }
 
+void Echo::EventListenerDelegate::onSendFrame(EchoFrame& frame) {
+
+	std::list<std::shared_ptr<Echo::EventListener> >::iterator it = mEventListeners.begin();
+	while( it != mEventListeners.end() ) {
+		(*it).get()->onSendFrame(frame);
+		++it;
+	}
+}
+
+void Echo::EventListenerDelegate::onReceiveFrame(EchoFrame& frame) {
+
+	std::list<std::shared_ptr<Echo::EventListener> >::iterator it = mEventListeners.begin();
+	while( it != mEventListeners.end() ) {
+		(*it).get()->onReceiveFrame(frame);
+		++it;
+	}
+}
+
+void Echo::Logger::onNewNode(std::shared_ptr<EchoNode> node) {
+	std::cout << "[onNewNode]address:" << node.get()->getAddress() << std::endl;
+}
+
+void Echo::Logger::onFoundNode(std::shared_ptr<EchoNode> node) {
+	std::cout << "[onFoundNode]address:" << node.get()->getAddress() << std::endl;
+}
+
+void Echo::Logger::onNewEchoObject(std::shared_ptr<EchoObject> eoj) {
+	std::cout << "[onNewEchoObject]address:" << eoj.get()->getNode().get()->getAddress() << ",echo_class_code:"
+			<< std::hex << eoj.get()->getEchoClassCode() << ",instance_code:"
+			<< std::hex << (int)(eoj.get()->getInstanceCode()) << std::endl;
+}
+
+void Echo::Logger::onFoundEchoObject(std::shared_ptr<EchoObject> eoj) {
+	std::cout << "[onFoundEchoObject]address:" << eoj.get()->getNode().get()->getAddress() << ",echo_class_code:"
+			<< std::hex << eoj.get()->getEchoClassCode() << ",instance_code:"
+			<< std::hex << (int)(eoj.get()->getInstanceCode()) << std::endl;
+}
+
+void Echo::Logger::onSendFrame(EchoFrame& frame) {
+
+	std::vector<unsigned char> byteArray = frame.getFrameByteArray();
+	int size = byteArray.size();
+	unsigned char buffer[size];
+	for (int i = 0; i < size; i++) {
+		buffer[i] = byteArray.at(i);
+	}
+
+	std::cout << "[onSendFrame]data:" << std::hex;
+	for (int i = 0; i < size; i++) {
+		std::cout << (int) (buffer[i]) << " ";
+	}
+	std::cout << ", to:" << frame.getDstEchoAddress() << std::endl;
+
+}
+
+void Echo::Logger::onReceiveFrame(EchoFrame& frame) {
+
+	std::vector<unsigned char> byteArray = frame.getFrameByteArray();
+	int size = byteArray.size();
+	unsigned char buffer[size];
+	for (int i = 0; i < size; i++) {
+		buffer[i] = byteArray.at(i);
+	}
+
+
+	std::cout << "[onReceiveFrame]:data:" << std::hex;
+	for (int i = 0; i < size; i++) {
+		std::cout << (int) (buffer[i]) << " ";
+	}
+	std::cout << ", from:" << frame.getSrcEchoAddress() << std::endl;
+}
 };
+

@@ -135,6 +135,8 @@ int main() {
 	vector<shared_ptr<DeviceObject> > devices;
 	devices.push_back(shared_ptr<DeviceObject>(new DefaultController()));
 
+	//Echo::addEventListener(std::shared_ptr<Echo::EventListener>(new Echo::Logger()));
+
 	Echo::start(profile, devices);
 
 	while(true) {

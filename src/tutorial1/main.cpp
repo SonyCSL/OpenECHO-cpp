@@ -11,7 +11,6 @@
 #include "../openecho/OpenECHO.h"
 
 using namespace std;
-// OpenECHOのnamespaceは"sonycsl_openecho"
 using namespace sonycsl_openecho;
 
 
@@ -65,6 +64,7 @@ int main() {
 	vector<shared_ptr<DeviceObject> > devices;
 	devices.push_back(shared_ptr<DeviceObject>(new DefaultController()));
 
+	//Echo::addEventListener(std::shared_ptr<Echo::EventListener>(new Echo::Logger()));
 	Echo::start(profile, devices);
 
 	while(true) {
@@ -98,9 +98,6 @@ int main() {
 
 		sleep(10);
 	}
-
-
-
 
 	return 0;
 }

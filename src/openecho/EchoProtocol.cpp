@@ -28,16 +28,11 @@ EchoTask::~EchoTask() {
 }
 
 void EchoTask::perform() {
-	std::cerr << "perform" << std::endl;
 	checkObjectInFrame();
 	if(isReportFrame()) {
-		std::cerr << "report" << std::endl;
-
 		onReceiveReport();
 	}
 	if(isRequestFrame()) {
-		std::cerr << "request" << std::endl;
-
 		std::vector<EchoFrame> responses = onReceiveRequest();
 		for(EchoFrame res : responses) {
 

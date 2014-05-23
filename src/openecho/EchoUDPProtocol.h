@@ -54,8 +54,8 @@ public:
 	void openUDP();
 	void closeUDP();
 
-	void sendUDP(const EchoFrame& frame);
-	void sendToSelf(const EchoFrame& frame);
+	void sendUDP(EchoFrame& frame);
+	void sendToSelf(EchoFrame& frame);
 
 	virtual void receive();
 
@@ -72,8 +72,8 @@ public:
 	virtual ~UDPProtocolTask();
 
 protected:
-	virtual void respond(const EchoFrame& response);
-	virtual void informAll(const EchoFrame& response);
+	virtual void respond(EchoFrame& response);
+	virtual void informAll(EchoFrame& response);
 };
 
 };

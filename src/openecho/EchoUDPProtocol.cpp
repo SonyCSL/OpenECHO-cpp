@@ -68,9 +68,10 @@ void EchoUDPProtocol::closeUDP() {
 	close(mReceiverSock);
 }
 
-void EchoUDPProtocol::sendUDP(const EchoFrame& frame) {
-	std::cerr << "sendUDP:" << std::endl;
+void EchoUDPProtocol::sendUDP(EchoFrame& frame) {
 	if (frame.getDstEchoAddress() == EchoSocket::SELF_ADDRESS) {
+		Echo::getEventListenerDelegate().onSendFrame(frame);
+
 		sendToSelf(frame);
 		return;
 	}
@@ -82,19 +83,21 @@ void EchoUDPProtocol::sendUDP(const EchoFrame& frame) {
 	addr.sin_family = AF_INET;
 	addr.sin_port = htons(PORT);
 	addr.sin_addr.s_addr = inet_addr(frame.getDstEchoAddress().c_str());
-	/*
-	 if(frame.getDstEchoAddress() == EchoSocket::MULTICAST_ADDRESS) {
-	 in_addr_t ipaddr = inet_addr(EchoSocket::SELF_ADDRESS.c_str());
 
-	 if (setsockopt(sock,
-	 IPPROTO_IP,
-	 IP_MULTICAST_IF,
-	 (char *)&ipaddr, sizeof(ipaddr)) != 0) {
-	 perror("sendUDPFrame");
-	 return;
-	 }
-	 }
-	 */
+	/*
+	if(frame.getDstEchoAddress() == EchoSocket::MULTICAST_ADDRESS) {
+		in_addr_t ipaddr = inet_addr(EchoSocket::SELF_ADDRESS.c_str());
+
+		if (setsockopt(sock,
+				IPPROTO_IP,
+				IP_MULTICAST_IF,
+				(char *)&ipaddr, sizeof(ipaddr)) != 0) {
+			perror("sendUDPFrame");
+			return;
+		}
+	}
+	*/
+
 
 	std::vector<unsigned char> byteArray = frame.getFrameByteArray();
 	int size = byteArray.size();
@@ -106,13 +109,14 @@ void EchoUDPProtocol::sendUDP(const EchoFrame& frame) {
 	sendto(sock, buffer, byteArray.size(), 0, (struct sockaddr *) &addr,
 			sizeof(addr));
 
-	std::cerr << "sendUDPFrame:" << std::hex;
-	for (int i = 0; i < size; i++) {
-		std::cerr << (int) (buffer[i]) << " ";
-	}
-	std::cerr << ":" << frame.getDstEchoAddress() << std::endl;
+	//std::cerr << "sendUDPFrame:" << std::hex;
+	//for (int i = 0; i < size; i++) {
+	//	std::cerr << (int) (buffer[i]) << " ";
+	//}
+	//std::cerr << ":" << frame.getDstEchoAddress() << std::endl;
 
 	close(sock);
+	Echo::getEventListenerDelegate().onSendFrame(frame);
 
 	if (frame.getDstEchoAddress() == EchoSocket::MULTICAST_ADDRESS) {
 		EchoFrame f = frame;
@@ -121,8 +125,9 @@ void EchoUDPProtocol::sendUDP(const EchoFrame& frame) {
 	}
 }
 
-void EchoUDPProtocol::sendToSelf(const EchoFrame& frame) {
+void EchoUDPProtocol::sendToSelf(EchoFrame& frame) {
 
+	Echo::getEventListenerDelegate().onReceiveFrame(frame);
 	std::shared_ptr<EchoTask> task(
 			(EchoTask*) (new UDPProtocolTask(frame, *this)));
 	EchoSocket::enqueueTask(task);
@@ -146,13 +151,14 @@ void EchoUDPProtocol::receive() {
 		data.push_back(buffer[i]);
 	}
 
-	std::cerr << "receiveUDPFrame:" << std::hex;
-	for (int i = 0; i < size; i++) {
-		std::cerr << (int) (buffer[i]) << " ";
-	}
 	const char* caddress = inet_ntoa(from.sin_addr);
 	std::string address = caddress;
-	std::cerr << ":" << address << std::endl;
+
+	//std::cerr << "receiveUDPFrame:" << std::hex;
+	//for (int i = 0; i < size; i++) {
+	//	std::cerr << (int) (buffer[i]) << " ";
+	//}
+	//std::cerr << ":" << address << std::endl;
 
 	// check address
 	/*
@@ -173,6 +179,7 @@ void EchoUDPProtocol::receive() {
 	}
 
 	EchoFrame frame(address, data);
+	Echo::getEventListenerDelegate().onReceiveFrame(frame);
 
 	std::shared_ptr<EchoTask> task(
 			(EchoTask*) (new UDPProtocolTask(frame, *this)));
@@ -229,11 +236,11 @@ UDPProtocolTask::UDPProtocolTask(EchoFrame frame, EchoUDPProtocol& protocol) :
 UDPProtocolTask::~UDPProtocolTask() {
 }
 
-void UDPProtocolTask::respond(const EchoFrame& response) {
+void UDPProtocolTask::respond(EchoFrame& response) {
 	mProtocol.sendUDP(response);
 }
 
-void UDPProtocolTask::informAll(const EchoFrame& response) {
+void UDPProtocolTask::informAll(EchoFrame& response) {
 	mProtocol.sendUDP(response);
 }
 

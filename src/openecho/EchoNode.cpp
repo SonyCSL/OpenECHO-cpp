@@ -80,10 +80,6 @@ void EchoNode::addDevice(std::shared_ptr<DeviceObject> device) {
 	} else {
 		mDevices.push_back(device);
 	}
-	std::cerr << "[addDevice]address:" << mAddress << ",class:"
-			<< std::hex << device.get()->getEchoClassCode() << ",instance:"
-			<< std::hex << (int)(device.get()->getInstanceCode()) << std::endl;
-
 
 }
 void EchoNode::removeDevice(unsigned short echoClassCode,
