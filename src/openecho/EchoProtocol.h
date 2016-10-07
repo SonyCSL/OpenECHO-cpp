@@ -33,8 +33,8 @@ public:
 
 	void perform();
 protected:
-	virtual void respond(const EchoFrame& response);
-	virtual void informAll(const EchoFrame& response);
+	virtual void respond(EchoFrame& response) = 0;
+	virtual void informAll(EchoFrame& response) = 0;
 
 	bool isRequestFrame();
 	bool isReportFrame();
