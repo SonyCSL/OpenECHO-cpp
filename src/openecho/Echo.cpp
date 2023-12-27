@@ -170,6 +170,9 @@ Echo::EventListener::~EventListener() {
 
 void Echo::EventListener::onNewDeviceObject(std::shared_ptr<DeviceObject> device) {
 }
+void Echo::EventListener::onNewHouseholdSolarPowerGeneration(std::shared_ptr<HouseholdSolarPowerGeneration> device) {
+}
+
 
 
 void Echo::EventListener::onSendFrame(EchoFrame& frame) {
