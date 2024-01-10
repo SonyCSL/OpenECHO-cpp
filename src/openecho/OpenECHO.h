@@ -28,5 +28,5 @@
 
 #include "EchoProtocol.h"
 #include "EchoUDPProtocol.h"
-#include "HouseholdSolarPowerGeneration.h"
+// #include "HouseholdSolarPowerGeneration.h"
 #endif /* OPENECHO_H_ */

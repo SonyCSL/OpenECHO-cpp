@@ -76,7 +76,7 @@ public:
 		virtual void onNewNodeProfile(std::shared_ptr<NodeProfile> profile);
 		virtual void onNewDeviceObject(std::shared_ptr<DeviceObject> device);
 
-        void onNewHouseholdSolarPowerGeneration(std::shared_ptr<HouseholdSolarPowerGeneration> device);
+        // void onNewHouseholdSolarPowerGeneration(std::shared_ptr<HouseholdSolarPowerGeneration> device);
 
         virtual void onSendFrame(EchoFrame& frame);
 		virtual void onReceiveFrame(EchoFrame& frame);
