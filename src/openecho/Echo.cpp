@@ -7,6 +7,7 @@
 
 #include "Echo.h"
 #include "OpenECHO.h"
+#include "HouseholdSolarPowerGeneration.h"
 
 
 namespace sonycsl_openecho {
@@ -149,6 +150,10 @@ void Echo::removeOtherNode(std::string address) {
 void Echo::EventListener::onNewNode(std::shared_ptr<EchoNode> node) {
 }
 
+void Echo::EventListener::onNewHouseholdSolarPowerGeneration(std::shared_ptr<HouseholdSolarPowerGeneration> device)
+{
+}
+
 void Echo::EventListener::onFoundNode(std::shared_ptr<EchoNode> node) {
 }
 
@@ -170,8 +175,7 @@ Echo::EventListener::~EventListener() {
 
 void Echo::EventListener::onNewDeviceObject(std::shared_ptr<DeviceObject> device) {
 }
-// void Echo::EventListener::onNewHouseholdSolarPowerGeneration(std::shared_ptr<HouseholdSolarPowerGeneration> device) {
-// }
+
 
 
 
@@ -206,6 +210,7 @@ void Echo::EventListenerDelegate::onNewNode(std::shared_ptr<EchoNode> node) {
 		++it;
 	}
 }
+
 
 void Echo::EventListenerDelegate::onFoundNode(std::shared_ptr<EchoNode> node) {
 	std::list<std::shared_ptr<Echo::EventListener> >::iterator it = mEventListeners.begin();
@@ -247,6 +252,14 @@ void Echo::EventListenerDelegate::onNewDeviceObject(
 	std::list<std::shared_ptr<Echo::EventListener> >::iterator it = mEventListeners.begin();
 	while( it != mEventListeners.end() ) {
 		(*it).get()->onNewDeviceObject(device);
+		++it;
+	}
+}
+
+void Echo::EventListenerDelegate::onNewHouseholdSolarPowerGeneration(std::shared_ptr<HouseholdSolarPowerGeneration> device){
+	std::list<std::shared_ptr<Echo::EventListener>>::iterator it = mEventListeners.begin();
+	while(it != mEventListeners.end()){
+		(*it).get()->onNewHouseholdSolarPowerGeneration(device);
 		++it;
 	}
 }
