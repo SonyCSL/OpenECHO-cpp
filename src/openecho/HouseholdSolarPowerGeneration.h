@@ -50,7 +50,7 @@ namespace sonycsl_openecho
         HouseholdSolarPowerGeneration::Setter set();
         HouseholdSolarPowerGeneration::Setter set(bool responseRequired);
         HouseholdSolarPowerGeneration::Getter get();
-        // HouseholdSolarPowerGeneration::Informer inform();
+        HouseholdSolarPowerGeneration::Informer inform();
 
     protected:
         HouseholdSolarPowerGeneration::Informer inform(bool multicast);
@@ -96,7 +96,8 @@ namespace sonycsl_openecho
         protected:
             virtual bool onSetProperty(std::shared_ptr<EchoObject> eoj, unsigned short tid, unsigned char esv, EchoProperty &property, bool success);
             virtual bool onGetProperty(std::shared_ptr<EchoObject> eoj, unsigned short tid, unsigned char esv, EchoProperty &property, bool success);
-           
+            virtual void onGetOperationStatus(std::shared_ptr<EchoObject> eoj, unsigned short tid, unsigned char esv, EchoProperty& property, bool success);
+            virtual void onSetOperationStatus(std::shared_ptr<EchoObject> eoj, unsigned short tid, unsigned char esv, EchoProperty& property, bool success);
             virtual void onSetResettingCumulativeAmountOfElectricitySold(std::shared_ptr<EchoObject> eoj, unsigned short tid, unsigned char esv, EchoProperty &property, bool success);
             virtual void onSetResettingCumulativeAmountOfElectricityGenerated(std::shared_ptr<EchoObject> eoj, unsigned short tid, unsigned char esv, EchoProperty &property, bool success);
             virtual void onSetPowerGenerationOutputLimitSetting1(std::shared_ptr<EchoObject> eoj, unsigned short tid, unsigned char esv, EchoProperty &property, bool success);  
@@ -121,54 +122,56 @@ namespace sonycsl_openecho
         public:
             Setter(unsigned short dstEchoClassCode, unsigned char dstEchoInstanceCode, std::string dstEchoAddress, bool responseRequired);
 			virtual ~Setter();
-            virtual HouseholdSolarPowerGeneration::Setter &reqSetLimitSettingForTheAmountOfElectricitySold(std::vector<unsigned char> &edt);
-            virtual HouseholdSolarPowerGeneration::Setter &reqSetResettingCumulativeAmountOfElectricityGenerated(std::vector<unsigned char> &edt);
-            virtual HouseholdSolarPowerGeneration::Setter &reqSetResettingCumulativeAmountOfElectricitySold(std::vector<unsigned char> &edt);
-            virtual HouseholdSolarPowerGeneration::Setter &reqSetPowerGenerationOutputLimitSetting1(std::vector<unsigned char> &edt);
-            virtual HouseholdSolarPowerGeneration::Setter &reqSetPowerGenerationOutputLimitSetting2(std::vector<unsigned char> &edt);
-            virtual HouseholdSolarPowerGeneration::Setter &reqSetProperty(unsigned char epc, std::vector<unsigned char> edt);
-            virtual HouseholdSolarPowerGeneration::Setter &reqSetRatedPowerGenerationOutputSystemInterconnected(std::vector<unsigned char> &edt);
-            virtual HouseholdSolarPowerGeneration::Setter &reqSetRatedPowerGenerationOutputIndependent(std::vector<unsigned char> &edt);
-            virtual HouseholdSolarPowerGeneration::Setter &reqSetOperationStatus(std::vector<unsigned char> edt);
-			virtual HouseholdSolarPowerGeneration::Setter &reqSetInstallationLocation(std::vector<unsigned char> edt);
-			virtual HouseholdSolarPowerGeneration::Setter &reqSetCurrentLimitSetting(std::vector<unsigned char> edt);
-			virtual HouseholdSolarPowerGeneration::Setter &reqSetPowerSavingOperationSetting(std::vector<unsigned char> edt);
-			virtual HouseholdSolarPowerGeneration::Setter &reqSetRemoteControlSetting(std::vector<unsigned char> edt);
-			virtual HouseholdSolarPowerGeneration::Setter &reqSetCurrentTimeSetting(std::vector<unsigned char> edt);
-			virtual HouseholdSolarPowerGeneration::Setter &reqSetCurrentDateSetting(std::vector<unsigned char> edt);
-			virtual HouseholdSolarPowerGeneration::Setter &reqSetPowerLimitSetting(std::vector<unsigned char> edt);
+            virtual HouseholdSolarPowerGeneration::Setter& reqSetLimitSettingForTheAmountOfElectricitySold(std::vector<unsigned char> &edt);
+            virtual HouseholdSolarPowerGeneration::Setter& reqSetResettingCumulativeAmountOfElectricityGenerated(std::vector<unsigned char> &edt);
+            virtual HouseholdSolarPowerGeneration::Setter& reqSetResettingCumulativeAmountOfElectricitySold(std::vector<unsigned char> &edt);
+            virtual HouseholdSolarPowerGeneration::Setter& reqSetPowerGenerationOutputLimitSetting1(std::vector<unsigned char> &edt);
+            virtual HouseholdSolarPowerGeneration::Setter& reqSetPowerGenerationOutputLimitSetting2(std::vector<unsigned char> &edt);
+            virtual HouseholdSolarPowerGeneration::Setter& reqSetProperty(unsigned char epc, std::vector<unsigned char> edt);
+            virtual HouseholdSolarPowerGeneration::Setter& reqSetRatedPowerGenerationOutputSystemInterconnected(std::vector<unsigned char> &edt);
+            virtual HouseholdSolarPowerGeneration::Setter& reqSetRatedPowerGenerationOutputIndependent(std::vector<unsigned char> &edt);
+            virtual HouseholdSolarPowerGeneration::Setter& reqSetOperationStatus(std::vector<unsigned char> edt);
+			virtual HouseholdSolarPowerGeneration::Setter& reqSetInstallationLocation(std::vector<unsigned char> edt);
+			virtual HouseholdSolarPowerGeneration::Setter& reqSetCurrentLimitSetting(std::vector<unsigned char> edt);
+			virtual HouseholdSolarPowerGeneration::Setter& reqSetPowerSavingOperationSetting(std::vector<unsigned char> edt);
+			virtual HouseholdSolarPowerGeneration::Setter& reqSetRemoteControlSetting(std::vector<unsigned char> edt);
+			virtual HouseholdSolarPowerGeneration::Setter& reqSetCurrentTimeSetting(std::vector<unsigned char> edt);
+			virtual HouseholdSolarPowerGeneration::Setter& reqSetCurrentDateSetting(std::vector<unsigned char> edt);
+			virtual HouseholdSolarPowerGeneration::Setter& reqSetPowerLimitSetting(std::vector<unsigned char> edt);
         };
         class Getter : public EchoObject::Getter
         {
             public:
             Getter(unsigned short dstEchoClassCode, unsigned char dstEchoInstanceCode, std::string dstEchoAddress);
 			virtual ~Getter();
-			virtual HouseholdSolarPowerGeneration::Getter &reqGetProperty(unsigned char epc);
-            virtual HouseholdSolarPowerGeneration::Getter &reqGetSystemInterconnEctedType();
-            virtual HouseholdSolarPowerGeneration::Getter &reqGetMeasuredInstantaneousAmountOfElectricityGenerated();
-            virtual HouseholdSolarPowerGeneration::Getter &reqGetMeasuredCumulativeAmountOfElectricityGenerated();
-            virtual HouseholdSolarPowerGeneration::Getter &reqGetMeasuredCumulativeAmountOfElectricitySold();
-            virtual HouseholdSolarPowerGeneration::Getter &reqGetPowerGenerationOutputLimitSetting1();
-            virtual HouseholdSolarPowerGeneration::Getter &reqGetPowerGenerationOutputLimitSetting2();
-            virtual HouseholdSolarPowerGeneration::Getter &reqGetLimitSettingForTheAmountOfElectricitySold();
-            virtual HouseholdSolarPowerGeneration::Getter &reqGetRatedPowerGenerationOutputSystemInterconnected();
-            virtual HouseholdSolarPowerGeneration::Getter &reqGetRatedPowerGenerationOutputIndependent();
+			virtual HouseholdSolarPowerGeneration::Getter& reqGetProperty(unsigned char epc);
+            virtual HouseholdSolarPowerGeneration::Getter& reqGetOperationStatus();
+            virtual HouseholdSolarPowerGeneration::Getter& reqGetSystemInterconnEctedType();
+            virtual HouseholdSolarPowerGeneration::Getter& reqGetMeasuredInstantaneousAmountOfElectricityGenerated();
+            virtual HouseholdSolarPowerGeneration::Getter& reqGetMeasuredCumulativeAmountOfElectricityGenerated();
+            virtual HouseholdSolarPowerGeneration::Getter& reqGetMeasuredCumulativeAmountOfElectricitySold();
+            virtual HouseholdSolarPowerGeneration::Getter& reqGetPowerGenerationOutputLimitSetting1();
+            virtual HouseholdSolarPowerGeneration::Getter& reqGetPowerGenerationOutputLimitSetting2();
+            virtual HouseholdSolarPowerGeneration::Getter& reqGetLimitSettingForTheAmountOfElectricitySold();
+            virtual HouseholdSolarPowerGeneration::Getter& reqGetRatedPowerGenerationOutputSystemInterconnected();
+            virtual HouseholdSolarPowerGeneration::Getter& reqGetRatedPowerGenerationOutputIndependent();
         };
         class Informer : public EchoObject::Informer
 		{
 		public:
 			Informer(unsigned short echoClassCode, unsigned char echoInstanceCode, std::string dstEchoAddress, bool isSelfObject);
 			virtual ~Informer();
-			virtual HouseholdSolarPowerGeneration::Informer &reqInformProperty(unsigned char epc);
-            virtual HouseholdSolarPowerGeneration::Informer &reqInformSystemInterconnEctedType();
-            virtual HouseholdSolarPowerGeneration::Informer &reqInformMeasuredInstantaneousAmountOfElectricityGenerated();
-            virtual HouseholdSolarPowerGeneration::Informer &reqInformMeasuredCumulativeAmountOfElectricityGenerated();
-            virtual HouseholdSolarPowerGeneration::Informer &reqInformMeasuredCumulativeAmountOfElectricitySold();
-            virtual HouseholdSolarPowerGeneration::Informer &reqInformPowerGenerationOutputLimitSetting1();
-            virtual HouseholdSolarPowerGeneration::Informer &reqInformPowerGenerationOutputLimitSetting2();
-            virtual HouseholdSolarPowerGeneration::Informer &reqInformLimitSettingForTheAmountOfElectricitySold();
-            virtual HouseholdSolarPowerGeneration::Informer &reqInformRatedPowerGenerationOutputSystemInterconnected();
-            virtual HouseholdSolarPowerGeneration::Informer &reqInformRatedPowerGenerationOutputIndependent();
+			virtual HouseholdSolarPowerGeneration::Informer& reqInformProperty(unsigned char epc);
+            virtual HouseholdSolarPowerGeneration::Informer& reqInformOperationStatus();
+            virtual HouseholdSolarPowerGeneration::Informer& reqInformSystemInterconnEctedType();
+            virtual HouseholdSolarPowerGeneration::Informer& reqInformMeasuredInstantaneousAmountOfElectricityGenerated();
+            virtual HouseholdSolarPowerGeneration::Informer& reqInformMeasuredCumulativeAmountOfElectricityGenerated();
+            virtual HouseholdSolarPowerGeneration::Informer& reqInformMeasuredCumulativeAmountOfElectricitySold();
+            virtual HouseholdSolarPowerGeneration::Informer& reqInformPowerGenerationOutputLimitSetting1();
+            virtual HouseholdSolarPowerGeneration::Informer& reqInformPowerGenerationOutputLimitSetting2();
+            virtual HouseholdSolarPowerGeneration::Informer& reqInformLimitSettingForTheAmountOfElectricitySold();
+            virtual HouseholdSolarPowerGeneration::Informer& reqInformRatedPowerGenerationOutputSystemInterconnected();
+            virtual HouseholdSolarPowerGeneration::Informer& reqInformRatedPowerGenerationOutputIndependent();
             
         };
         class InformerC : public EchoObject::InformerC

@@ -6,7 +6,7 @@
 namespace sonycsl_openecho
 {
     static const short ECHO_CLASS_CODE = 0x0279;
-    const unsigned char DeviceObject::EPC_OPERATION_STATUS = 0x80;
+    const unsigned char HouseholdSolarPowerGeneration::EPC_OPERATION_STATUS = 0x80;
     const unsigned char HouseholdSolarPowerGeneration::EPC_SYSTEM_INTERCONNECTION_INFORMATION = 0xD0;
     const unsigned char HouseholdSolarPowerGeneration::EPC_MEASURED_INSTANTANEOUS_ELECTRICITY_GENERATION = 0xE0;
     const unsigned char HouseholdSolarPowerGeneration::EPC_MEASURED_CUMULATIVE_AMOUT_OF_ELECTRICITY_GENERATION = 0xE1;
@@ -177,19 +177,19 @@ namespace sonycsl_openecho
         return HouseholdSolarPowerGeneration::Getter(getEchoClassCode(), getInstanceCode(), getNode().get()->getAddress());
     }
 
-    // HouseholdSolarPowerGeneration::Informer HouseholdSolarPowerGeneration::inform()
-    // {
-    //     std::string address;
-    //     if (isProxy)
-    //     {
-    //         address = getNode().get()->getAddress();
-    //     }
-    //     else
-    //     {
-    //         address = EchoSocket::MULTICAST_ADDRESS;
-    //     }
-    //     return HouseholdSolarPowerGeneration::Informer(getEchoClassCode(), getInstanceCode(), address, isSelfObject());
-    // }
+    HouseholdSolarPowerGeneration::Informer HouseholdSolarPowerGeneration::inform()
+    {
+        std::string address;
+        if (isProxy())
+        {
+            address = getNode().get()->getAddress();
+        }
+        else
+        {
+            address = EchoSocket::MULTICAST_ADDRESS;
+        }
+        return HouseholdSolarPowerGeneration::Informer(getEchoClassCode(), getInstanceCode(), address, isSelfObject());
+    }
     HouseholdSolarPowerGeneration::Informer HouseholdSolarPowerGeneration::inform(bool multicast)
     {
         std::string address;
@@ -435,7 +435,21 @@ namespace sonycsl_openecho
 
     HouseholdSolarPowerGeneration::Informer &HouseholdSolarPowerGeneration::Informer::reqInformOperationStatus()
     {
-    	return reqInformProperty(EPC_OPERATION_STATUS);
+        return reqInformProperty(EPC_OPERATION_STATUS);
+    }
+    HouseholdSolarPowerGeneration::Getter &HouseholdSolarPowerGeneration::Getter::reqGetOperationStatus()
+    {
+        return reqGetProperty(EPC_OPERATION_STATUS);
+    }
+    void HouseholdSolarPowerGeneration::Receiver::onGetOperationStatus(
+        std::shared_ptr<EchoObject> eoj, unsigned short tid, unsigned char esv,
+        EchoProperty &property, bool success)
+    {
+    }
+    void HouseholdSolarPowerGeneration::Receiver::onSetOperationStatus(
+        std::shared_ptr<EchoObject> eoj, unsigned short tid, unsigned char esv,
+        EchoProperty &property, bool success)
+    {
     }
 
     // HouseholdSolarPowerGeneration::Informer &HouseholdSolarPowerGeneration::Informer::reqInformInstallationLocation()

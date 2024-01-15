@@ -134,7 +134,7 @@ protected:
         {
             cout << "OFF" << endl;
         }
-        DeviceObject::inform().reqInformOperationStatus().send();
+        HouseholdSolarPowerGeneration::inform().reqInformOperationStatus().send();
         return true;
     }
     virtual shared_ptr<vector<unsigned char>> getOperationStatus()
