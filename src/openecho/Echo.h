@@ -13,6 +13,8 @@
 #include <list>
 #include <string>
 #include <memory>
+#include"HouseholdSolarPowerGeneration.h"
+
 
 namespace sonycsl_openecho {
 
@@ -70,13 +72,16 @@ public:
 		EventListener();
 		virtual ~EventListener();
 		virtual void onNewNode(std::shared_ptr<EchoNode> node);
+		virtual void onNewHouseholdSolarPowerGeneration(std::shared_ptr<HouseholdSolarPowerGeneration> device);
 		virtual void onFoundNode(std::shared_ptr<EchoNode> node);
 		virtual void onNewEchoObject(std::shared_ptr<EchoObject> eoj);
 		virtual void onFoundEchoObject(std::shared_ptr<EchoObject> eoj);
 		virtual void onNewNodeProfile(std::shared_ptr<NodeProfile> profile);
 		virtual void onNewDeviceObject(std::shared_ptr<DeviceObject> device);
 
-		virtual void onSendFrame(EchoFrame& frame);
+        // void onNewHouseholdSolarPowerGeneration(std::shared_ptr<HouseholdSolarPowerGeneration> device);
+
+        virtual void onSendFrame(EchoFrame& frame);
 		virtual void onReceiveFrame(EchoFrame& frame);
 	};
 
@@ -91,6 +96,7 @@ private:
 
 		virtual void onNewNode(std::shared_ptr<EchoNode> node);
 		virtual void onFoundNode(std::shared_ptr<EchoNode> node);
+		virtual void onNewHouseholdSolarPowerGeneration(std::shared_ptr<HouseholdSolarPowerGeneration> device);
 		virtual void onNewEchoObject(std::shared_ptr<EchoObject> eoj);
 		virtual void onFoundEchoObject(std::shared_ptr<EchoObject> eoj);
 		virtual void onNewNodeProfile(std::shared_ptr<NodeProfile> profile);
