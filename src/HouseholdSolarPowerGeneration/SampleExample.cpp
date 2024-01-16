@@ -174,7 +174,7 @@ int main()
     {
         NodeProfile::Getter(NodeProfile::ECHO_CLASS_CODE, NodeProfile::INSTANCE_CODE, EchoSocket::MULTICAST_ADDRESS).reqGetSelfNodeInstanceListS().send();
 
-        sleep(10);
+        sleep(100);
     }
 
     return 0;

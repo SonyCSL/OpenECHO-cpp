@@ -8,6 +8,7 @@
 #include "Echo.h"
 #include "OpenECHO.h"
 #include "HouseholdSolarPowerGeneration.h"
+#include "SmartElectricEnergyMeter.h"
 
 
 namespace sonycsl_openecho {
@@ -153,6 +154,9 @@ void Echo::EventListener::onNewNode(std::shared_ptr<EchoNode> node) {
 void Echo::EventListener::onNewHouseholdSolarPowerGeneration(std::shared_ptr<HouseholdSolarPowerGeneration> device)
 {
 }
+void Echo::EventListener::onNewSmartElectricEnergyMeter(std::shared_ptr<SmartElectricEnergyMeter> device)
+{
+}
 
 void Echo::EventListener::onFoundNode(std::shared_ptr<EchoNode> node) {
 }
@@ -260,6 +264,13 @@ void Echo::EventListenerDelegate::onNewHouseholdSolarPowerGeneration(std::shared
 	std::list<std::shared_ptr<Echo::EventListener>>::iterator it = mEventListeners.begin();
 	while(it != mEventListeners.end()){
 		(*it).get()->onNewHouseholdSolarPowerGeneration(device);
+		++it;
+	}
+}
+void Echo::EventListenerDelegate::onNewSmartElectricEnergyMeter(std::shared_ptr<SmartElectricEnergyMeter> device){
+	std::list<std::shared_ptr<Echo::EventListener>>::iterator it = mEventListeners.begin();
+	while(it != mEventListeners.end()){
+		(*it).get()->onNewSmartElectricEnergyMeter(device);
 		++it;
 	}
 }
