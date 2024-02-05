@@ -4,27 +4,27 @@
 namespace sonycsl_openecho
 {
     static const short ECHO_CLASS_CODE = 0x0288;
-    const unsigned char EPC_OPERATION_STATUS = 0x80;
-    const unsigned char EPC_ELECTRIC_ENERGY_METER_CLASSIFICATION = 0xD0;
-    const unsigned char EPC_OWNER_CLASSIFICATION = 0xD1;
-    const unsigned char EPC_PHASES_AND_WIRES_SETTING_STATUS = D2;
-    const unsigned char EPC_COMPOSITE_TRANSFORMATION_RATIO = D3;
-    const unsigned char EPC_MULTIPLYING_FACTOR_FOR_COMPOSITE_TRANSFORMATION_RATIO = D4;
-    const unsigned char EPC_METER_TYPE_CERTIFICATION_NUMBER = D5;
-    const unsigned char EPC_YEAR_AND_MONTH_OF_INSPECTION_EXPIRY = D6;
-    const unsigned char EPC_NUMBER_OF_EFFECTIVE_DIGITS_FOR_CUMULATIVE_AMOUNTS_OF_ELECTRIC_ENERGY = D7;
-    const unsigned char EPC_MEASURED_CUMULATIVE_AMOUNT_OF_ELECTRIC_ENERGY_NORMAL_DIRECTION = E0;
-    const unsigned char EPC_UNIT_FOR_CUMULATIVE_AMOUNTS_OF_ELECTRIC_ENERGY_NORMAL_AND_REVERSE_DIRECTIONS = E1;
-    const unsigned char EPC_HISTORICAL_DATA_OF_MEASURED_CUMULATIVE_AMOUNTS_OF_ELECTRIC_ENERGY_NORMAL_DIRECTION = E2;
-    const unsigned char EPC_MEASURED_CUMULATIVE_AMOUNTS_OF_ELECTRIC_ENERGY_REVERSE_DIRECTION = E3;
-    const unsigned char EPC_HISTORICAL_DATA_OF_MEASURED_CUMULATIVE_AMOUNTS_OF_ELECTRIC_ENERGY_REVERSE_DIRECTION = E4;
-    const unsigned char EPC_DAY_FOR_WHICH_THE_HISTORICAL_DATA_OF_MEASURED_CUMULATIVE_AMOUNTS_OF_ELECTRIC_ENERGY_IS_TO_BE_RETRIEVED = E5;
-    const unsigned char EPC_MEASURED_INSTANTANEOUS_ELECTRIC_ENERGY = E7;
-    const unsigned char EPC_MEASURED_INSTANTANEOUS_CURRENTS = E8;
-    const unsigned char EPC_MEASURED_INSTANTANEOUS_VOLTAGES = E9;
-    const unsigned char EPC_CUMULATIVE_AMOUNTS_OF_ELECTRIC_ENERGY_MEASURED_AT_FIXED_TIME_NORMAL_DIRECTION = EA;
-    const unsigned char EPC_CUMULATIVE_AMOUNTS_OF_ELECTRIC_ENERGY_MEASURED_AT_FIXED_TIME_REVERSE_DIRECTION = EB;
-
+    const unsigned char SmartElectricEnergyMeter::EPC_OPERATION_STATUS = 0x80;
+    const unsigned char SmartElectricEnergyMeter::EPC_ELECTRIC_ENERGY_METER_CLASSIFICATION = 0xD0;
+    const unsigned char SmartElectricEnergyMeter::EPC_OWNER_CLASSIFICATION = 0xD1;
+    const unsigned char SmartElectricEnergyMeter::EPC_PHASES_AND_WIRES_SETTING_STATUS = D2;
+    const unsigned char SmartElectricEnergyMeter::EPC_COMPOSITE_TRANSFORMATION_RATIO = D3;
+    const unsigned char SmartElectricEnergyMeter::EPC_MULTIPLYING_FACTOR_FOR_COMPOSITE_TRANSFORMATION_RATIO = D4;
+    const unsigned char SmartElectricEnergyMeter::EPC_METER_TYPE_CERTIFICATION_NUMBER = D5;
+    const unsigned char SmartElectricEnergyMeter::EPC_YEAR_AND_MONTH_OF_INSPECTION_EXPIRY = D6;
+    const unsigned char SmartElectricEnergyMeter::EPC_NUMBER_OF_EFFECTIVE_DIGITS_FOR_CUMULATIVE_AMOUNTS_OF_ELECTRIC_ENERGY = D7;
+    const unsigned char SmartElectricEnergyMeter::EPC_MEASURED_CUMULATIVE_AMOUNT_OF_ELECTRIC_ENERGY_NORMAL_DIRECTION = E0;
+    const unsigned char SmartElectricEnergyMeter::EPC_UNIT_FOR_CUMULATIVE_AMOUNTS_OF_ELECTRIC_ENERGY_NORMAL_AND_REVERSE_DIRECTIONS = E1;
+    const unsigned char SmartElectricEnergyMeter::EPC_HISTORICAL_DATA_OF_MEASURED_CUMULATIVE_AMOUNTS_OF_ELECTRIC_ENERGY_NORMAL_DIRECTION = E2;
+    const unsigned char SmartElectricEnergyMeter::EPC_MEASURED_CUMULATIVE_AMOUNTS_OF_ELECTRIC_ENERGY_REVERSE_DIRECTION = E3;
+    const unsigned char SmartElectricEnergyMeter::EPC_HISTORICAL_DATA_OF_MEASURED_CUMULATIVE_AMOUNTS_OF_ELECTRIC_ENERGY_REVERSE_DIRECTION = E4;
+    const unsigned char SmartElectricEnergyMeter::EPC_DAY_FOR_WHICH_THE_HISTORICAL_DATA_OF_MEASURED_CUMULATIVE_AMOUNTS_OF_ELECTRIC_ENERGY_IS_TO_BE_RETRIEVED = E5;
+    const unsigned char SmartElectricEnergyMeter::EPC_MEASURED_INSTANTANEOUS_ELECTRIC_ENERGY = E7;
+    const unsigned char SmartElectricEnergyMeter::EPC_MEASURED_INSTANTANEOUS_CURRENTS = E8;
+    const unsigned char SmartElectricEnergyMeter::EPC_MEASURED_INSTANTANEOUS_VOLTAGES = E9;
+    const unsigned char SmartElectricEnergyMeter::EPC_CUMULATIVE_AMOUNTS_OF_ELECTRIC_ENERGY_MEASURED_AT_FIXED_TIME_NORMAL_DIRECTION = EA;
+    const unsigned char SmartElectricEnergyMeter::EPC_CUMULATIVE_AMOUNTS_OF_ELECTRIC_ENERGY_MEASURED_AT_FIXED_TIME_REVERSE_DIRECTION = EB;
+    const unsigned char SmartElectricEnergyMeter::EPC_GET_PROPERTY_MAP = 0x9F;
     SmartElectricEnergyMeter::SmartElectricEnergyMeter() : DeviceObject()
     {
         mEchoInstanceCode = 0;
@@ -411,8 +411,8 @@ namespace sonycsl_openecho
     SmartElectricEnergyMeter::InformerC::~InformerC()
     {
     }
-    SmartElectricEnergyMeter::Proxy::Proxy(unsigned short echoClassCode,
-                                           unsigned char echoInstanceCode) : SmartElectricEnergyMeter()
+
+    SmartElectricEnergyMeter::Proxy::Proxy(unsigned short echoClassCode, unsigned char echoInstanceCode) : SmartElectricEnergyMeter()
     {
         mEchoClassCode = echoClassCode;
         mEchoInstanceCode = echoInstanceCode;
@@ -442,7 +442,6 @@ namespace sonycsl_openecho
     {
         return reqSetProperty(EPC_INSTALLATION_LOCATION, edt);
     }
-
     SmartElectricEnergyMeter::Setter &SmartElectricEnergyMeter::Setter::reqSetCurrentLimitSetting(
         std::vector<unsigned char> edt)
     {
@@ -517,7 +516,10 @@ namespace sonycsl_openecho
     {
         return std::shared_ptr<std::vector<unsigned char>>();
     }
-
+    std::shared_ptr<std::vector<unsigned char>> SmartElectricEnergyMeter::Proxy::getFaultStatus()
+    {
+        return std::shared_ptr<std::vector<unsigned char>>();
+    }
     std::shared_ptr<std::vector<unsigned char>> SmartElectricEnergyMeter::Proxy::getManufacturerCode()
     {
         return std::shared_ptr<std::vector<unsigned char>>();
@@ -716,7 +718,7 @@ namespace sonycsl_openecho
     {
         return (edt.empty() || edt.size() != 194) ? false : true;
     }
-    bool SmartElectricEnergyMeter::isValidDayForWhichTheHistoricalDataOfMeasuredCumulativeAmountsOfElectricEnergyIsToBeRetrieved(std::vectot<unsigned char> &edt)
+    bool SmartElectricEnergyMeter::isValidDayForWhichTheHistoricalDataOfMeasuredCumulativeAmountsOfElectricEnergyIsToBeRetrieved(std::vector<unsigned char> &edt)
     {
         return (edt.empty() || edt.size() != 1) ? false : true;
     }

@@ -35,6 +35,7 @@ namespace sonycsl_openecho
         static const unsigned char EPC_MEASURED_INSTANTANEOUS_ELECTRIC_ENERGY;
         static const unsigned char EPC_MEASURED_INSTANTANEOUS_CURRENTS;
         static const unsigned char EPC_MEASURED_INSTANTANEOUS_VOLTAGES;
+        static const unsigned char EPC_GET_PROPERTY_MAP;
         static const unsigned char EPC_CUMULATIVE_AMOUNTS_OF_ELECTRIC_ENERGY_MEASURED_AT_FIXED_TIME_NORMAL_DIRECTION;
         static const unsigned char EPC_CUMULATIVE_AMOUNTS_OF_ELECTRIC_ENERGY_MEASURED_AT_FIXED_TIME_REVERSE_DIRECTION;
 
@@ -61,7 +62,7 @@ namespace sonycsl_openecho
 
     protected:
         SmartElectricEnergyMeter::Informer inform(bool multicast);
-        SmartElectricEnergyMeter::InformerC inform(std::string address);
+        SmartElectricEnergyMeter::InformerC informC(std::string address);
         virtual void setupPropertyMaps();
         virtual bool setOperationStatus(std::vector<unsigned char> &edt);
         virtual std::shared_ptr<std::vector<unsigned char>> getOperationStatus() = 0;
@@ -149,19 +150,19 @@ namespace sonycsl_openecho
         public:
             Setter(unsigned short dstEchoClassCode, unsigned char dstEchoInstanceCode, std::string dstEchoAddress, bool responseRequired);
             virtual ~Setter();
-            virtual SmartElectricEnergyMeter::Setter &reqSetOperationStatus(std::vector<unsigned char> &edt);
-            virtual SmartElectricEnergyMeter::Setter &reqSetProperty(unsigned char epc, std::vector<unsigned char> edt);
-            virtual SmartElectricEnergyMeter::Setter &reqSetInstallationLocation(std::vector<unsigned char> &edt);
-            virtual SmartElectricEnergyMeter::Setter &reqSetCurrentLimitSetting(std::vector<unsigned char> &edt);
-            virtual SmartElectricEnergyMeter::Setter &reqSetPowerSavingOperationSetting(std::vector<unsigned char> &edt);
-            virtual SmartElectricEnergyMeter::Setter &reqSetRemoteControlSetting(std::vector<unsigned char> &edt);
-            virtual SmartElectricEnergyMeter::Setter &reqSetCurrentTimeSetting(std::vector<unsigned char> &edt);
-            virtual SmartElectricEnergyMeter::Setter &reqSetCurrentDateSetting(std::vector<unsigned char> &edt);
-            virtual SmartElectricEnergyMeter::Setter &reqSetPowerLimitSetting(std::vector<unsigned char> &edt);
-            virtual SmartElectricEnergyMeter::Setter &reqSetOwnerClassification(std::vector<unsigned char> &edt);
-            virtual SmartElectricEnergyMeter::Setter &reqSetElectricEnergyMeterClassification(std::vector<unsigned char> &edt);
-            virtual SmartElectricEnergyMeter::Setter &reqSetYearAndMonthOfInspectionExpiry(std::vector<unsigned char> &edt);
-            virtual SmartElectricEnergyMeter::Setter &reqSetDayForWhichTheHistoricalDataOfMeasuredCumulativeAmountsOfElectricEnergyIsToBeRetrieved(std::vector<unsigned char> &edt);
+            virtual SmartElectricEnergyMeter::Setter& reqSetOperationStatus(std::vector<unsigned char> edt);
+            virtual SmartElectricEnergyMeter::Setter& reqSetProperty(unsigned char epc, std::vector<unsigned char> edt);
+            virtual SmartElectricEnergyMeter::Setter& reqSetInstallationLocation(std::vector<unsigned char> edt);
+            virtual SmartElectricEnergyMeter::Setter& reqSetCurrentLimitSetting(std::vector<unsigned char> edt);
+            virtual SmartElectricEnergyMeter::Setter& reqSetPowerSavingOperationSetting(std::vector<unsigned char> edt);
+            virtual SmartElectricEnergyMeter::Setter& reqSetRemoteControlSetting(std::vector<unsigned char> edt);
+            virtual SmartElectricEnergyMeter::Setter& reqSetCurrentTimeSetting(std::vector<unsigned char> edt);
+            virtual SmartElectricEnergyMeter::Setter& reqSetCurrentDateSetting(std::vector<unsigned char> edt);
+            virtual SmartElectricEnergyMeter::Setter& reqSetPowerLimitSetting(std::vector<unsigned char> edt);
+            virtual SmartElectricEnergyMeter::Setter& reqSetOwnerClassification(std::vector<unsigned char> &edt);
+            virtual SmartElectricEnergyMeter::Setter& reqSetElectricEnergyMeterClassification(std::vector<unsigned char> &edt);
+            virtual SmartElectricEnergyMeter::Setter& reqSetYearAndMonthOfInspectionExpiry(std::vector<unsigned char> &edt);
+            virtual SmartElectricEnergyMeter::Setter& reqSetDayForWhichTheHistoricalDataOfMeasuredCumulativeAmountsOfElectricEnergyIsToBeRetrieved(std::vector<unsigned char> &edt);
         };
         class Getter : public EchoObject::Getter
         {
@@ -233,6 +234,7 @@ namespace sonycsl_openecho
             virtual SmartElectricEnergyMeter::Informer &reqInformBusinessFacilityCode();
             virtual SmartElectricEnergyMeter::Informer &reqInformProductCode();
             virtual SmartElectricEnergyMeter::Informer &reqInformProductionNumber();
+            virtual SmartElectricEnergyMeter::Informer &reqInformGetPropertyMap();
             virtual SmartElectricEnergyMeter::Informer &reqInformProductionDate();
             virtual SmartElectricEnergyMeter::Informer &reqInformPowerSavingOperationSetting();
             virtual SmartElectricEnergyMeter::Informer &reqInformRemoteControlSetting();
@@ -286,7 +288,7 @@ namespace sonycsl_openecho
         virtual std::shared_ptr<std::vector<unsigned char>> getCumulativeAmountsOfElectricEnergyMeasuredAtFixedTimeNormalDirection();
 
     public:
-        Proxy(unsigned char echoClassCode, unsigned char echoInstanceCode);
+        Proxy(unsigned short echoClassCode, unsigned char echoInstanceCode);
         virtual ~Proxy();
         virtual unsigned char getInstanceCode();
         virtual unsigned short getEchoClassCode();
