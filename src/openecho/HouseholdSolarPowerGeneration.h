@@ -188,19 +188,17 @@ namespace sonycsl_openecho
 	{
 	protected:
 		unsigned short mEchoClassCode;
-
-	public:
-		Proxy(unsigned short echoClassCode, unsigned char echoInstanceCode);
-		virtual ~Proxy();
-
-		virtual unsigned char getInstanceCode();
-		virtual unsigned short getEchoClassCode();
-
-		virtual std::shared_ptr<std::vector<unsigned char>> getOperationStatus();
+        virtual std::shared_ptr<std::vector<unsigned char>> getOperationStatus();
 		virtual bool setInstallationLocation(std::vector<unsigned char> &edt);
 		virtual std::shared_ptr<std::vector<unsigned char>> getInstallationLocation();
 		virtual std::shared_ptr<std::vector<unsigned char>> getFaultStatus();
 		virtual std::shared_ptr<std::vector<unsigned char>> getManufacturerCode();
+
+	public:
+		Proxy(unsigned short echoClassCode, unsigned char echoInstanceCode);
+		virtual ~Proxy();
+		virtual unsigned char getInstanceCode();
+		virtual unsigned short getEchoClassCode();
 	};
 
 };

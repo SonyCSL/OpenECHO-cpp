@@ -13,7 +13,8 @@
 #include <list>
 #include <string>
 #include <memory>
-#include"HouseholdSolarPowerGeneration.h"
+#include "HouseholdSolarPowerGeneration.h"
+#include "SmartElectricEnergyMeter.h"
 
 
 namespace sonycsl_openecho {
@@ -73,6 +74,8 @@ public:
 		virtual ~EventListener();
 		virtual void onNewNode(std::shared_ptr<EchoNode> node);
 		virtual void onNewHouseholdSolarPowerGeneration(std::shared_ptr<HouseholdSolarPowerGeneration> device);
+		virtual void onNewSmartElectricEnergyMeter(std::shared_ptr<SmartElectricEnergyMeter> device);
+
 		virtual void onFoundNode(std::shared_ptr<EchoNode> node);
 		virtual void onNewEchoObject(std::shared_ptr<EchoObject> eoj);
 		virtual void onFoundEchoObject(std::shared_ptr<EchoObject> eoj);
@@ -97,6 +100,8 @@ private:
 		virtual void onNewNode(std::shared_ptr<EchoNode> node);
 		virtual void onFoundNode(std::shared_ptr<EchoNode> node);
 		virtual void onNewHouseholdSolarPowerGeneration(std::shared_ptr<HouseholdSolarPowerGeneration> device);
+		virtual void onNewSmartElectricEnergyMeter(std::shared_ptr<SmartElectricEnergyMeter> device);
+
 		virtual void onNewEchoObject(std::shared_ptr<EchoObject> eoj);
 		virtual void onFoundEchoObject(std::shared_ptr<EchoObject> eoj);
 		virtual void onNewNodeProfile(std::shared_ptr<NodeProfile> profile);
