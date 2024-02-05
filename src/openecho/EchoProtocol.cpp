@@ -129,12 +129,6 @@ void EchoTask::onReceiveReport() {
 	}
 }
 
-void EchoTask::respond(const EchoFrame& response) {
-}
-
-void EchoTask::informAll(const EchoFrame& response) {
-}
-
 void EchoTask::checkObjectInFrame() {
 	if(EchoSocket::SELF_ADDRESS == mFrame->getSrcEchoAddress()) {
 		// self node
